@@ -6,8 +6,11 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
+	
+	<fx:Script source="SpeedometerViewClass.as" />
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Label x="10" y="10" text="55.55" width="255" height="129" verticalAlign="middle" textAlign="center" fontSize="96"/>
+	<s:Label x="10" y="10" text="00:00" width="255" height="129" verticalAlign="middle" textAlign="center" fontSize="96" id="speedLabel"/>
 </s:Group>
