@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="560" height="300" xmlns:controls="controls.*" 
+					   currentState="speedometerState"
+					   showStatusBar="false"
+					   usePreloader="false">
+	<s:states>
+		<s:State name="speedometerState"/>
+		<s:State name="dataState"/>
+	</s:states>
+	
+	<s:transitions>
+		<!--To: check-mark -->
+		<s:Transition toState="{this.MAIN_STATE}" fromState="{this.DATA_STATE}">
+			<s:Move targets="{ [ mainView, dataView ] }" duration="{this.TRANSITION_SPEED}"
+					effectStart="onTransitionStart(event)" effectEnd="onTransitionEnd(event)"/>
+		</s:Transition>
+		
+		<!--To: X-mark -->
+		<s:Transition toState="{this.MAIN_STATE}" fromState="{this.DATA_STATE}">
+			<s:Move targets="{ [ mainView, dataView ] }" duration="{this.TRANSITION_SPEED}"/>
+		</s:Transition>
+	</s:transitions>	
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script source="AccelerateClass.as" />
+	
+	<controls:MainView x="0" y="0" x.dataState="-560" y.dataState="0" 
+					   id="mainView"
+					   onDataViewRequest="onDataViewRequest(event)">
+	</controls:MainView>
+	<controls:DataView x="560" y="0" x.dataState="0" y.dataState="0"
+					   id="dataView"
+					   onMainViewRequest="onMainViewRequest(event)">
+	</controls:DataView>
+</s:WindowedApplication>
