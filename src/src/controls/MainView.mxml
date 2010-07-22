@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="560" height="300"
-		 xmlns:controls="controls.*">
+		 xmlns:controls="controls.*"
+		 creationComplete="onCreationComplete()">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
@@ -28,12 +29,8 @@
 	<controls:SpeedometerView x="10" y="12" width="275" height="130">
 	</controls:SpeedometerView>
 	<s:Button x="10" y="245" label="Reset" width="275" height="50" chromeColor="#A30A0A" id="resetButton" click="onResetClick()"/>
-	<s:Label x="23" y="159" text="Sensor 1"/>
-	<s:Label x="23" y="175" text="Sensor 2"/>
-	<controls:LEDControl x="10" y="159">
-	</controls:LEDControl>
-	<controls:LEDControl x="10" y="175">
-	</controls:LEDControl>
-	<s:Label x="80" y="159" text="(0)" width="50"/>
-	<s:Label x="80" y="175" text="(0)" width="50"/>
+	<controls:SensorStatusControl x="10" y="150" id="sensor1">
+	</controls:SensorStatusControl>
+	<controls:SensorStatusControl x="10" y="169" id="sensor2">
+	</controls:SensorStatusControl>
 </s:Group>
