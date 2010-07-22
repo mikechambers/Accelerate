@@ -25,6 +25,7 @@ public static const SENSOR_1_OUTPUT_INDEX:uint = 6;
 public static const SENSOR_2_OUTPUT_INDEX:uint = 7;
 
 public static const LIGHT_THRESHHOLD:Number = 75;
+public static const LIGHT_SENSOR_CHANGE_TRIGGER:uint = 100;
 
 private var _lastLightSensor_1_value:Number = 0;
 private var _lastLightSensor_2_value:Number = 0;
@@ -72,6 +73,8 @@ public function onAttach(e:PhidgetEvent):void
 	trace("Serial : " + device.serialNumber);
 	
 
+	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_1_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
+	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_2_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	reset();
 }
 
