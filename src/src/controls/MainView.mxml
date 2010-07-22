@@ -15,7 +15,8 @@
 	
 	<fx:Metadata> 
 		[Event(name="onDataViewRequest", type="com.mikechambers.accelerate.events.ViewEvent")] 
-	</fx:Metadata> 	
+		[Event(name="onReset", type="com.mikechambers.accelerate.events.AccelerateEvent")] 
+	</fx:Metadata> 
 	
 	<fx:Script source="MainViewClass.as" />
 	
@@ -26,5 +27,5 @@
 	<s:Label text="Date Label" width="226" right="36" top="10"/>
 	<controls:SpeedometerView x="10" y="12" width="275" height="225">
 	</controls:SpeedometerView>
-	<s:Button x="10" y="245" label="Reset" width="275" height="50" chromeColor="#A30A0A" id="resetButton"/>
+	<s:Button x="10" y="245" label="Reset" width="275" height="50" chromeColor="#A30A0A" id="resetButton" click="onResetClick()"/>
 </s:Group>
