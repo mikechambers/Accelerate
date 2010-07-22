@@ -33,6 +33,7 @@
 	
 	<controls:MainView x="0" y="0" x.dataState="-560" y.dataState="0" 
 					   id="mainView"
+					   onDataViewRequest="onDataViewRequest(event)"
 					   onReset="onReset(event)">
 	</controls:MainView>
 	<controls:DataView x="560" y="0" x.dataState="0" y.dataState="0"
