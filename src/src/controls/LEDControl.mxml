@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="10" height="10"
+		 creationComplete="onCreationComplete()">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script source="LEDControlClass.as" />
+	
+	<mx:Image x="0" y="0" width="10" height="10" scaleContent="false" id="ledImage"/>
+</s:Group>

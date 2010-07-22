@@ -25,7 +25,15 @@
 	<s:Button label="Save" right="36" bottom="10" width="220" id="saveButton"/>
 	<s:TextInput width="220" right="36" bottom="39" id="nameInput"/>
 	<s:Label text="Date Label" width="226" right="36" top="10"/>
-	<controls:SpeedometerView x="10" y="12" width="275" height="225">
+	<controls:SpeedometerView x="10" y="12" width="275" height="130">
 	</controls:SpeedometerView>
 	<s:Button x="10" y="245" label="Reset" width="275" height="50" chromeColor="#A30A0A" id="resetButton" click="onResetClick()"/>
+	<s:Label x="23" y="159" text="Sensor 1"/>
+	<s:Label x="23" y="175" text="Sensor 2"/>
+	<controls:LEDControl x="10" y="159">
+	</controls:LEDControl>
+	<controls:LEDControl x="10" y="175">
+	</controls:LEDControl>
+	<s:Label x="80" y="159" text="(0)" width="50"/>
+	<s:Label x="80" y="175" text="(0)" width="50"/>
 </s:Group>
