@@ -89,9 +89,6 @@ public function onAttach(e:PhidgetEvent):void
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_1_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_2_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	
-	sensor1.ledColor = LEDControl.GREEN;
-	sensor2.ledColor = LEDControl.GREEN;
-	
 	resetButton.enabled = true;
 	
 	reset();
@@ -101,6 +98,9 @@ private function reset():void
 {
 	_lastLightSensor_1_value = interfaceKit.getSensorValue(LIGHT_SENSOR_1_INDEX);
 	_lastLightSensor_2_value = interfaceKit.getSensorValue(LIGHT_SENSOR_2_INDEX);
+	
+	sensor1.ledColor = (_lastLightSensor_1_value == 0)?LEDControl.RED:LEDControl.GREEN;
+	sensor2.ledColor = (_lastLightSensor_2_value == 0)?LEDControl.RED:LEDControl.GREEN;	
 	
 	sensor1.value = String(_lastLightSensor_1_value);
 	sensor2.value = String(_lastLightSensor_2_value);
