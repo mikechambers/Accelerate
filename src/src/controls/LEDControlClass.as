@@ -19,7 +19,7 @@ private var _ledColor:String;
 private function onCreationComplete():void
 {
 	_redLEDBitmap = new redLED() as BitmapAsset;
-	_greenLEDBitmap = new redLED() as BitmapAsset;
+	_greenLEDBitmap = new greenLED() as BitmapAsset;
 	
 	greenLED = null;
 	redLED = null;
@@ -33,7 +33,7 @@ public function set ledColor(value:String):void
 	{
 		return;
 	}
-	
+		
 	_ledColor = value;
 	var led:BitmapAsset;
 	

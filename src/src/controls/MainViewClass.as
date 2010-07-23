@@ -1,11 +1,12 @@
 
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
-
 import com.phidgets.Phidget;
 import com.phidgets.PhidgetInterfaceKit;
 import com.phidgets.events.PhidgetDataEvent;
 import com.phidgets.events.PhidgetEvent;
+
+import controls.LEDControl;
 
 public static const PHIDGET_PORT:uint = 5001;
 
@@ -69,6 +70,10 @@ public function onAttach(e:PhidgetEvent):void
 	
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_1_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_2_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
+	
+	sensor1.ledColor = LEDControl.GREEN;
+	sensor2.ledColor = LEDControl.GREEN;
+	
 	reset();
 }
 
@@ -90,6 +95,9 @@ public function onDisconnect(e:PhidgetEvent):void
 	var device:Phidget = e.Device;
 	trace("-------onDisconnect-------");
 	trace(device.Name, device.Label, device.serialNumber);
+	
+	sensor1.ledColor = LEDControl.RED;
+	sensor2.ledColor = LEDControl.RED;
 }
 
 public function onSensorChange(e:PhidgetDataEvent):void
