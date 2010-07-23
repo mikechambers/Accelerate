@@ -27,10 +27,13 @@
 			  chromeColor="#A30A0A" id="resetButton" 
 			  enabled="false"
 			  click="onResetClick()"/>
-	<controls:SensorStatusControl x="636.2" y="29.25" id="sensor1">
-	</controls:SensorStatusControl>
-	<controls:SensorStatusControl x="636.2" y="48.25" id="sensor2">
-	</controls:SensorStatusControl>
-	<controls:SensorStatusControl x="636.2" y="8.5" id="interfaceSensor">
-	</controls:SensorStatusControl>
+	<s:BorderContainer x="498" y="20" width="244" height="118" cornerRadius="3">
+		<controls:SensorStatusControl x="10.2" y="48.25" id="sensor1">
+		</controls:SensorStatusControl>
+		<controls:SensorStatusControl x="10.2" y="67.25" id="sensor2">
+		</controls:SensorStatusControl>
+		<controls:SensorStatusControl x="10.2" y="27.5" id="interfaceSensor">
+		</controls:SensorStatusControl>
+	</s:BorderContainer>
+	<s:Label x="505" y="14" text="Sensor Status" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
 </s:Group>
