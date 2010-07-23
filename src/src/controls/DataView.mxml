@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="560" height="300">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="408" width="780">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
@@ -14,6 +14,6 @@
 	</fx:Metadata> 		
 	
 	<fx:Script source="DataViewClass.as" />
+	<s:Label text="Data View" fontSize="96" horizontalCenter="0" verticalCenter="0"/>
 	
-	<s:Button label="&lt;" bottom="1" height="300" left="0" click="onMainButtonClick()" id="mainViewButton" width="29"/>
 </s:Group>

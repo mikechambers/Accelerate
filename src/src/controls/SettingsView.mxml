@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="380" height="230"
-		 contentBackgroundColor="#333333">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="408" width="780" contentBackgroundColor="#19BB1D">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	
-	<fx:Script source="SpeedometerViewClass.as" />
-	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Label x="10" text="00:00" width="360" height="210" verticalAlign="middle" textAlign="center" fontSize="124" id="speedLabel" y="10"/>
+	<s:Label text="Settings View" fontSize="96" horizontalCenter="0" verticalCenter="0"/>
 </s:Group>

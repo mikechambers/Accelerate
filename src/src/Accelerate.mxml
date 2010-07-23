@@ -5,23 +5,21 @@
 					   width="800" height="480" xmlns:controls="controls.*" 
 					   currentState="speedometerState"
 					   showStatusBar="false"
-					   usePreloader="false">
+					   usePreloader="false"
+					   creationComplete="onCreationComplete()">
 	<s:states>
 		<s:State name="speedometerState"/>
 		<s:State name="dataState"/>
+		<s:State name="settingsState"/>
 	</s:states>
 	
 	<s:transitions>
-		<!--To: check-mark -->
-		<s:Transition toState="{this.MAIN_STATE}" fromState="{this.DATA_STATE}">
-			<s:Move targets="{ [ mainView, dataView ] }" duration="{this.TRANSITION_SPEED}"
+		<!--MAIN to DATA -->
+		<s:Transition toState="*" fromState="*">
+			<s:Move targets="{ [ mainView, dataView, settingsView ] }" duration="{this.TRANSITION_SPEED}"
 					effectStart="onTransitionStart(event)" effectEnd="onTransitionEnd(event)"/>
 		</s:Transition>
-		
-		<!--To: X-mark -->
-		<s:Transition toState="{this.MAIN_STATE}" fromState="{this.DATA_STATE}">
-			<s:Move targets="{ [ mainView, dataView ] }" duration="{this.TRANSITION_SPEED}"/>
-		</s:Transition>
+
 	</s:transitions>	
 	
 	<fx:Declarations>
@@ -30,24 +28,38 @@
 	
 	<fx:Script source="AccelerateClass.as" />
 	
-	<controls:MainView x="0" y="0" x.dataState="-560" y.dataState="0" 
+	<controls:MainView x="0" y="10" x.dataState="-787.2"
 					   id="mainView"
-					   onDataViewRequest="onDataViewRequest(event)" x.speedometerState="10" 
-					   y.speedometerState="10" height="408" width="780">
+					   onDataViewRequest="onDataViewRequest(event)" 
+					   x.speedometerState="10" 
+					   height="408" width="780" y.dataState="10.5" x.settingsState="810" y.settingsState="10">
 	</controls:MainView>
-	<controls:DataView x="560" y="0" x.dataState="0" y.dataState="0"
+	<controls:DataView x="560" y="10" x.dataState="10"
 					   id="dataView"
+					   
 					   onMainViewRequest="onMainViewRequest(event)" 
-					   x.speedometerState="808" y.speedometerState="10" height="408" width="780">
+					   x.speedometerState="808" y.speedometerState="10" height="408" width="780" x.settingsState="1608" y.settingsState="10">
 	</controls:DataView>
 	
-	<s:ButtonBar id="myButtonBar" height="40" y="425.75" 
-				 width="780" x="10.4"> 
+	<s:ButtonBar id="navButtonBar" height="40" 
+				 y.dataState="425.75" x.dataState="10.4" width.dataState="780" 
+				 width.speedometerState="780" x.speedometerState="10.4" 
+				 bottom="10" left="10" right="10"
+				 change="onNavChange()" width.settingsState="780" x.settingsState="10.4"> 
+		<s:layout.speedometerState>
+			<s:ButtonBarHorizontalLayout/>
+		</s:layout.speedometerState>
+		<s:layout.settingsState>
+			<s:ButtonBarHorizontalLayout/>
+		</s:layout.settingsState>
 		<mx:ArrayCollection> 
+			<fx:String>Settings</fx:String> 
 			<fx:String>Main</fx:String> 
 			<fx:String>Data</fx:String> 
-			<fx:String>Settings</fx:String> 
 		</mx:ArrayCollection> 
 	</s:ButtonBar> 	
+	<controls:SettingsView x="-790" y="10" id="settingsView" x.settingsState="10"
+						   x.dataState="-1641.7" y.dataState="18.35">
+	</controls:SettingsView>
 	
 </s:WindowedApplication>
