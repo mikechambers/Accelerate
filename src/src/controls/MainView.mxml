@@ -28,9 +28,15 @@
 	<s:Label text="Date Label" width="226" right="36" top="10"/>
 	<controls:SpeedometerView x="10" y="12" width="275" height="130">
 	</controls:SpeedometerView>
-	<s:Button x="10" y="245" label="Reset" width="275" height="50" chromeColor="#A30A0A" id="resetButton" click="onResetClick()"/>
-	<controls:SensorStatusControl x="10" y="150" id="sensor1">
+	<s:Button x="10" y="245" label="Reset" width="275" height="50" 
+			  chromeColor="#A30A0A" id="resetButton" 
+			  enabled="false"
+			  click="onResetClick()"/>
+	<controls:SensorStatusControl x="10" y="187.75" id="sensor1">
 	</controls:SensorStatusControl>
-	<controls:SensorStatusControl x="10" y="169" id="sensor2">
+	<controls:SensorStatusControl x="10" y="206.75" id="sensor2">
 	</controls:SensorStatusControl>
+	<controls:SensorStatusControl x="10" y="167" id="interfaceSensor">
+	</controls:SensorStatusControl>
+	<mx:HRule width="274" left="11" top="147"/>
 </s:Group>

@@ -10,7 +10,7 @@ private function updateLabel():void
 	
 	if(value)
 	{
-		out += " (" + value +")";
+		out += " : " + value;
 	}
 	
 	labelField.text = out;
@@ -30,6 +30,7 @@ public function get label():String
 public function set value(value:String):void
 {
 	_value = value;
+	updateLabel();
 }
 
 public function get value():String

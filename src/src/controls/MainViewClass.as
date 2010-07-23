@@ -31,7 +31,8 @@ private var interfaceKit:PhidgetInterfaceKit;
 private function onCreationComplete():void
 {
 	sensor1.label = "Light Sensor 1";
-	sensor2.label = "Light Sensor 2";	
+	sensor2.label = "Light Sensor 2";
+	interfaceSensor.label = "Interface Kit";
 	
 	interfaceKit = new PhidgetInterfaceKit();
 	
@@ -43,6 +44,16 @@ private function onCreationComplete():void
 	//phid.addEventListener(PhidgetDataEvent.OUTPUT_CHANGE, onOutputChange);
 	
 	interfaceKit.open("127.0.0.1", PHIDGET_PORT);
+}
+
+public override function set enabled(value:Boolean):void
+{
+	super.enabled = value;
+	
+	if(interfaceKit)
+	{
+		resetButton.enabled = interfaceKit.isAttached;
+	}
 }
 
 public function onConnect(e:PhidgetEvent):void
@@ -57,6 +68,12 @@ public function onDetach(e:PhidgetEvent):void
 	var device:Phidget = e.Device;
 	trace("-------onDetach-------");
 	trace(device.Name, device.Label, device.serialNumber);
+	
+	interfaceSensor.ledColor = LEDControl.RED;
+	sensor1.ledColor = LEDControl.RED;
+	sensor2.ledColor = LEDControl.RED;
+	
+	resetButton.enabled = false;
 }
 
 public function onAttach(e:PhidgetEvent):void
@@ -67,12 +84,15 @@ public function onAttach(e:PhidgetEvent):void
 	trace("Version : " + device.Version);
 	trace("Serial : " + device.serialNumber);
 	
+	interfaceSensor.ledColor = LEDControl.GREEN;
 	
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_1_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	interfaceKit.setSensorChangeTrigger(LIGHT_SENSOR_2_INDEX, LIGHT_SENSOR_CHANGE_TRIGGER);
 	
 	sensor1.ledColor = LEDControl.GREEN;
 	sensor2.ledColor = LEDControl.GREEN;
+	
+	resetButton.enabled = true;
 	
 	reset();
 }
@@ -81,6 +101,10 @@ private function reset():void
 {
 	_lastLightSensor_1_value = interfaceKit.getSensorValue(LIGHT_SENSOR_1_INDEX);
 	_lastLightSensor_2_value = interfaceKit.getSensorValue(LIGHT_SENSOR_2_INDEX);
+	
+	sensor1.value = String(_lastLightSensor_1_value);
+	sensor2.value = String(_lastLightSensor_2_value);
+	
 	interfaceKit.setOutputState(SENSOR_1_OUTPUT_INDEX, false);
 	interfaceKit.setOutputState(SENSOR_2_OUTPUT_INDEX, false);
 	
@@ -122,6 +146,8 @@ public function onSensorChange(e:PhidgetDataEvent):void
 			
 			_lastLightSensor_1_value = value;
 			
+			sensor1.value = String(value);
+			
 			if(Math.abs(change) > LIGHT_THRESHHOLD)
 			{
 				_lightSensor_1_triggered = true;
@@ -141,6 +167,7 @@ public function onSensorChange(e:PhidgetDataEvent):void
 			change = (Math.abs(_lastLightSensor_2_value - value) / value) * 100;
 			
 			_lastLightSensor_2_value = value;
+			sensor2.value = String(value);
 			
 			if(Math.abs(change) > LIGHT_THRESHHOLD)
 			{
