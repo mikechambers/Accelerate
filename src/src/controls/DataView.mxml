@@ -15,5 +15,5 @@
 	
 	<fx:Script source="DataViewClass.as" />
 	
-	<s:Button label="&lt;" bottom="1" right="531" height="300" left="0" click="onMainButtonClick()" id="mainViewButton"/>
+	<s:Button label="&lt;" bottom="1" height="300" left="0" click="onMainButtonClick()" id="mainViewButton" width="29"/>
 </s:Group>

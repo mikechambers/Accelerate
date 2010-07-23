@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="560" height="300"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="480"
 		 xmlns:controls="controls.*"
 		 creationComplete="onCreationComplete()">
 	<s:layout>
@@ -21,11 +21,6 @@
 	
 	<fx:Script source="MainViewClass.as" />
 	
-	<s:Button label="&gt;" bottom="0" right="-1" height="300" left="532" click="onDataButtonClick()"/>
-	<s:TextArea right="36" top="30" bottom="69" width="222" id="notesField"/>
-	<s:Button label="Save" right="36" bottom="10" width="220" id="saveButton"/>
-	<s:TextInput width="220" right="36" bottom="39" id="nameInput"/>
-	<s:Label text="Date Label" width="226" right="36" top="10"/>
 	<controls:SpeedometerView x="10" y="12" width="275" height="130">
 	</controls:SpeedometerView>
 	<s:Button x="10" y="245" label="Reset" width="275" height="50" 
