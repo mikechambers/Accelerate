@@ -23,7 +23,7 @@
 		<s:HSlider x="193" y="180" minimum="0" maximum="100" stepSize="5" id="thresholdSlider" change="onChange()"/>
 		<s:Label x="307" y="175" width="31" text="{thresholdSlider.value}"/>
 		<s:Button x="23" y="287" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" click="onSaveClick()" id="saveButton"/>
-		<s:Button x="194" y="289" label="Cancel" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onSaveClick()" id="cancelButton"/>
+		<s:Button x="194" y="289" label="Cancel" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onCancelClick()" id="cancelButton"/>
 		
 	</s:BorderContainer>
 </s:Group>
