@@ -1,5 +1,6 @@
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
+import com.mikechambers.accelerate.settings.Settings;
 
 import flash.events.Event;
 import flash.utils.Timer;
@@ -16,9 +17,43 @@ public static const SETTINGS_BUTTON_INDEX:uint = 0;
 public static const MAIN_BUTTON_INDEX:uint = 1;
 public static const DATA_BUTTON_INDEX:uint = 2;
 
+private static const SETTINGS_FILE_NAME:String = "accelerate.settings";
+
+public var settings:Settings;
+
 private function onCreationComplete():void
 {
 	navButtonBar.selectedIndex = MAIN_BUTTON_INDEX;
+}
+
+private function onInitialize():void
+{
+	loadSettings();
+}
+
+private function saveSettings():void
+{
+	var f:File = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME);
+	var fs:FileStream = new FileStream();
+	fs.open(f, FileMode.WRITE);
+	fs.writeObject(settings);
+	fs.close();
+}
+
+private function loadSettings():void
+{
+	var f:File = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME);
+	
+	if(!f.exists)
+	{
+		settings = new Settings();
+		return;
+	}
+	
+	var fs:FileStream = new FileStream();
+	fs.open(f, FileMode.READ);
+	settings = fs.readObject() as Settings;
+	fs.close();
 }
 
 private function onNavChange():void

@@ -6,7 +6,8 @@
 					   currentState="speedometerState"
 					   showStatusBar="false"
 					   usePreloader="false"
-					   creationComplete="onCreationComplete()">
+					   creationComplete="onCreationComplete()"
+					   initialize="onInitialize()">
 	<s:states>
 		<s:State name="speedometerState"/>
 		<s:State name="dataState"/>
