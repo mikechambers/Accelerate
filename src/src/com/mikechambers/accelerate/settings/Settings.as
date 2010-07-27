@@ -8,6 +8,7 @@ package com.mikechambers.accelerate.settings
 		public var serverPort:uint = 5001;
 		public var lightSensorThreshold:uint = 75;
 		public var lightSensorChangeTrigger:uint = 100;
+		public var lightSensorDistance:Number = 12; //specified in inches
 		
 		public function Settings()
 		{

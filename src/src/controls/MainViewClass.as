@@ -1,6 +1,7 @@
 
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
+import com.mikechambers.accelerate.settings.Settings;
 import com.phidgets.Phidget;
 import com.phidgets.PhidgetInterfaceKit;
 import com.phidgets.events.PhidgetDataEvent;
@@ -28,6 +29,8 @@ private var _startTimeStamp:Number;
 
 private var interfaceKit:PhidgetInterfaceKit;
 
+private var _settings:Settings;
+
 private function onCreationComplete():void
 {
 	sensor1.label = "Light Sensor 1";
@@ -44,6 +47,11 @@ private function onCreationComplete():void
 	//phid.addEventListener(PhidgetDataEvent.OUTPUT_CHANGE, onOutputChange);
 
 	interfaceKit.open("127.0.0.1", PHIDGET_PORT);
+}
+
+public function set settings(value:Settings):void
+{
+	_settings = value;
 }
 
 public override function set enabled(value:Boolean):void
@@ -253,8 +261,9 @@ private function calculateSpeed(elapsedTimeSeconds:Number):Number
 		milesPerHour = distanceInInches / timeInSeconds / 17.6	
 	
 	*/
-	var inches:Number = 5.5;
-	return inches / elapsedTimeSeconds / 17.6;
+	
+	//lightSensorDistance is specified in inches
+	return _settings.lightSensorDistance / elapsedTimeSeconds / 17.6;
 }
 
 private function onDataButtonClick():void

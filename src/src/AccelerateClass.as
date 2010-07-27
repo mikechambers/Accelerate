@@ -25,6 +25,7 @@ public var settings:Settings;
 private function onCreationComplete():void
 {
 	navButtonBar.selectedIndex = MAIN_BUTTON_INDEX;
+	mainView.settings = settings;
 	settingsView.settings = settings;
 }
 

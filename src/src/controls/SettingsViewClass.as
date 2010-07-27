@@ -16,6 +16,7 @@ private function updateSettings():void
 	portInput.text = String(_settings.serverPort);
 	thresholdSlider.value = _settings.lightSensorThreshold;
 	changeTriggerSlider.value = _settings.lightSensorChangeTrigger;
+	sensorDistanceInput.text = String(_settings.lightSensorDistance);
 	
 	saveButton.enabled = false;
 	cancelButton.enabled = false;
@@ -27,6 +28,7 @@ private function onSaveClick():void
 	_settings.serverPort = uint(portInput.text);
 	_settings.lightSensorThreshold = thresholdSlider.value;
 	_settings.lightSensorChangeTrigger = uint(changeTriggerSlider.value);
+	_settings.lightSensorDistance = Number(sensorDistanceInput.text);
 	
 	var e:SettingsEvent = new SettingsEvent(SettingsEvent.UPDATED);
 	e.settings = _settings;

@@ -29,6 +29,9 @@
 		<s:Label x="307" y="175" width="31" text="{thresholdSlider.value}"/>
 		<s:Button x="23" y="287" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" click="onSaveClick()" id="saveButton"/>
 		<s:Button x="193" y="287" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onCancelClick()" id="cancelButton"/>
+		<s:Label x="51" y="142" text="Light Sensor Distance :"/>
+		<s:TextInput x="189" y="136" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" change="onChange()"/>
+		<s:Label x="252" y="143" text="Inches"/>
 		
 	</s:BorderContainer>
 	
