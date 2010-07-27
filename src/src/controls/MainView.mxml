@@ -21,7 +21,7 @@
 	
 	<fx:Script source="MainViewClass.as" />
 	
-	<controls:SpeedometerView x="10" y="12" width="380" height="230">
+	<controls:SpeedometerView x="10" y="12" width="380" height="230" id="speedView">
 	</controls:SpeedometerView>
 	<s:Button x="10.5" y="348.5" label="Reset" width="275" height="50" 
 			  chromeColor="#A30A0A" id="resetButton" 

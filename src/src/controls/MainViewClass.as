@@ -111,6 +111,8 @@ private function reset():void
 	_lightSensor_1_triggered = false;
 	_startTimeStamp = 0;
 	
+	speedView.reset();
+	
 	interfaceKit.addEventListener(PhidgetDataEvent.SENSOR_CHANGE, onSensorChange);
 }
 
@@ -140,7 +142,7 @@ public function onSensorChange(e:PhidgetDataEvent):void
 				return;
 			}
 			
-			trace("Light Sensor 1 : " + Number(e.Data));
+			//trace("Light Sensor 1 : " + Number(e.Data));
 			
 			change = (Math.abs(_lastLightSensor_1_value - value) / value) * 100;
 			
@@ -162,7 +164,7 @@ public function onSensorChange(e:PhidgetDataEvent):void
 		case LIGHT_SENSOR_2_INDEX:
 		{
 			
-			trace("Light Sensor 2 : " + Number(e.Data));			
+			//trace("Light Sensor 2 : " + Number(e.Data));			
 			
 			change = (Math.abs(_lastLightSensor_2_value - value) / value) * 100;
 			
@@ -174,11 +176,23 @@ public function onSensorChange(e:PhidgetDataEvent):void
 				var stopTimeStamp:Number = new Date().getTime();
 				
 				var elapsedTime:Number = stopTimeStamp - _startTimeStamp;
-				interfaceKit.setOutputState(SENSOR_2_OUTPUT_INDEX, true);
 				
-				trace("Elapsed Time : " + elapsedTime);
 				
+				var distunitsvalue:Number = .0254;
+				var speedunitsvalue:Number = 0.44704;
+				var temp:Number =  elapsedTime / 1000;
+				var inches:Number = 5.5;
+				
+				//  calculate speed
+				
+				var speedMPH:Number = ((inches * distunitsvalue)  / (temp * speedunitsvalue)); 				
+				//interfaceKit.setOutputState(SENSOR_2_OUTPUT_INDEX, true);
+				trace(speedMPH);
+				speedView.speed = speedMPH;				
 				trace("Light Sensor 2 : HIT");
+				trace("Elapsed Time : " + (elapsedTime / 1000));
+				
+				
 				
 				interfaceKit.removeEventListener(PhidgetDataEvent.SENSOR_CHANGE, onSensorChange);
 				
