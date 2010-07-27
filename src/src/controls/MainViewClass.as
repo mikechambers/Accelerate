@@ -42,9 +42,7 @@ private function onCreationComplete():void
 	interfaceKit.addEventListener(PhidgetEvent.DISCONNECT, onDisconnect);
 	//phid.addEventListener(PhidgetDataEvent.INPUT_CHANGE, onInputChange);
 	//phid.addEventListener(PhidgetDataEvent.OUTPUT_CHANGE, onOutputChange);
-	
-	trace(calculateSpeed(0.083));
-	trace(calculateSpeed2(0.083));
+
 	interfaceKit.open("127.0.0.1", PHIDGET_PORT);
 }
 
@@ -206,19 +204,13 @@ public function onSensorChange(e:PhidgetDataEvent):void
 	}
 }
 
-private function calculateSpeed(elapsedTimeSeconds:Number):Number
-{
-	var distunitsvalue:Number = .0254;
-	var speedunitsvalue:Number = 0.44704;
-	var temp:Number =  elapsedTimeSeconds;
-	var inches:Number = 5.5;
-	
-	//  calculate speed
-	
-	var speedMPH:Number = ((inches * distunitsvalue)  / (temp * speedunitsvalue));
-	return speedMPH;
-}
 
+/*
+	This is my original function to calculate speed. It has been replaced
+	by a much more efficient function below, but I am keeping this here
+	so you can see the different approaches, and how it was optimized.
+*/
+/*
 private function calculateSpeed2(elapsedTimeSeconds:Number):Number
 {
 	var inches:Number = 5.5;
@@ -228,6 +220,41 @@ private function calculateSpeed2(elapsedTimeSeconds:Number):Number
 	var t2:Number = t / 63360; // 63360 inches in a mile
 	
 	return t2;
+}
+*/
+
+private function calculateSpeed(elapsedTimeSeconds:Number):Number
+{	
+	/*
+		Thanks to Tim Goss for vastly simplifying
+		my algorithm for converting inches / second
+		into miles / hour
+	
+		5.5 inches / 0.083 sec = 66.265 inches/sec
+		
+		66.265 inches/sec  x 3600 sec/hour = 239850 inches/hour
+		
+		239850 inches/hour / 63360 inches/mile = 3.76 miles/hour
+		
+		looks good :)
+		
+		but the 63360 and 3600 are constants so you can simplify this a bit and 
+		convert inches/sec directly to miles/hour
+		
+		1 mile/hour = 63360 inches / 3600 sec = 17.6 inches/sec
+		
+		just dividing by 17.6 and you can avoid the larger numbers and the extra 
+		multiply and divide...
+		
+		5.5 inches / 0.083 sec / 17.6 = 3.76 miles/hour
+		
+		or just...
+		
+		milesPerHour = distanceInInches / timeInSeconds / 17.6	
+	
+	*/
+	var inches:Number = 5.5;
+	return inches / elapsedTimeSeconds / 17.6;
 }
 
 private function onDataButtonClick():void
