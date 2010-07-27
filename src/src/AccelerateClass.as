@@ -1,4 +1,5 @@
 import com.mikechambers.accelerate.events.AccelerateEvent;
+import com.mikechambers.accelerate.events.SettingsEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
 import com.mikechambers.accelerate.settings.Settings;
 
@@ -24,11 +25,19 @@ public var settings:Settings;
 private function onCreationComplete():void
 {
 	navButtonBar.selectedIndex = MAIN_BUTTON_INDEX;
+	settingsView.settings = settings;
 }
 
 private function onInitialize():void
 {
 	loadSettings();
+}
+
+private function onSettingsUpdated(e:SettingsEvent):void
+{
+	settings = e.settings;
+	
+	saveSettings();
 }
 
 private function saveSettings():void

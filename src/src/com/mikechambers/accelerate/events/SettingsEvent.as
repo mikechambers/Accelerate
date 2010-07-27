@@ -6,7 +6,7 @@ package com.mikechambers.accelerate.events
 	
 	public class SettingsEvent extends Event
 	{
-		public static const UPDATED:String = "onChange";
+		public static const UPDATED:String = "onUpdated";
 		
 		public var settings:Settings;
 		
