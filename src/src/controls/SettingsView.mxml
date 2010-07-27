@@ -10,8 +10,13 @@
 	</fx:Declarations>
 	<fx:Script source="SettingsViewClass.as" />
 	
-	<s:BorderContainer x="25" y="24" width="735" height="360" cornerRadius="3">
+	<fx:Metadata> 
+		[Event(name="onUpdated", type="com.mikechambers.accelerate.events.SettingsEvent")] 
+	</fx:Metadata> 	
+	
+	<s:BorderContainer x="25" y="24" width="376" height="360" cornerRadius="3">
 		<s:Label x="10" y="-8" text="Settings" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
+		
 		<s:Label x="16" y="64" text="Proxy Address :" width="88" textAlign="right"/>
 		<s:Label x="16" y="101" text="Proxy Port :" width="86" textAlign="right"/>
 		<s:Label x="16" y="181" text="Light Sensor Threshold :" width="165" textAlign="right"/>
@@ -23,7 +28,14 @@
 		<s:HSlider x="193" y="180" minimum="0" maximum="100" stepSize="5" id="thresholdSlider" change="onChange()"/>
 		<s:Label x="307" y="175" width="31" text="{thresholdSlider.value}"/>
 		<s:Button x="23" y="287" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" click="onSaveClick()" id="saveButton"/>
-		<s:Button x="194" y="289" label="Cancel" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onCancelClick()" id="cancelButton"/>
+		<s:Button x="193" y="287" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onCancelClick()" id="cancelButton"/>
 		
 	</s:BorderContainer>
+	
+	<s:BorderContainer x="418" y="24" width="352" height="360" cornerRadius="3">
+		<s:Label x="47" y="81" text="Light Sensor 1"/>
+		<s:Label x="193" y="80" text="Light Sensor 2"/>
+	</s:BorderContainer>
+	
+	<s:Label x="429" y="17" text="Sensor Calibration" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
 </s:Group>

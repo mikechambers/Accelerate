@@ -60,7 +60,8 @@
 		</mx:ArrayCollection> 
 	</s:ButtonBar> 	
 	<controls:SettingsView x="-790" y="10" id="settingsView" x.settingsState="10"
-						   x.dataState="-1641.7" y.dataState="18.35">
+						   x.dataState="-1641.7" y.dataState="18.35"
+						   onUpdated="onSettingsUpdated(event)">
 	</controls:SettingsView>
 	
 </s:WindowedApplication>

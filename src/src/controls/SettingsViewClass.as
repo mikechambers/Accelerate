@@ -16,6 +16,9 @@ private function updateSettings():void
 	portInput.text = String(_settings.serverPort);
 	thresholdSlider.value = _settings.lightSensorThreshold;
 	changeTriggerSlider.value = _settings.lightSensorChangeTrigger;
+	
+	saveButton.enabled = false;
+	cancelButton.enabled = false;
 }
 
 private function onSaveClick():void
@@ -30,6 +33,9 @@ private function onSaveClick():void
 	
 	//bug: no code hint for this
 	dispatchEvent(e);
+	
+	saveButton.enabled = false;
+	cancelButton.enabled = false;
 }
 
 private function onCancelClick():void
@@ -40,5 +46,6 @@ private function onCancelClick():void
 private function onChange():void
 {
 	saveButton.enabled = true;
+	cancelButton.enabled = true;
 }
 
