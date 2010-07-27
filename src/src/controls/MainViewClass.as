@@ -43,6 +43,8 @@ private function onCreationComplete():void
 	//phid.addEventListener(PhidgetDataEvent.INPUT_CHANGE, onInputChange);
 	//phid.addEventListener(PhidgetDataEvent.OUTPUT_CHANGE, onOutputChange);
 	
+	trace(calculateSpeed(0.083));
+	trace(calculateSpeed2(0.083));
 	interfaceKit.open("127.0.0.1", PHIDGET_PORT);
 }
 
@@ -202,6 +204,30 @@ public function onSensorChange(e:PhidgetDataEvent):void
 			break;
 		}
 	}
+}
+
+private function calculateSpeed(elapsedTimeSeconds:Number):Number
+{
+	var distunitsvalue:Number = .0254;
+	var speedunitsvalue:Number = 0.44704;
+	var temp:Number =  elapsedTimeSeconds;
+	var inches:Number = 5.5;
+	
+	//  calculate speed
+	
+	var speedMPH:Number = ((inches * distunitsvalue)  / (temp * speedunitsvalue));
+	return speedMPH;
+}
+
+private function calculateSpeed2(elapsedTimeSeconds:Number):Number
+{
+	var inches:Number = 5.5;
+	
+	var t:Number = ((inches / elapsedTimeSeconds) * 3600);
+	
+	var t2:Number = t / 63360; // 63360 inches in a mile
+	
+	return t2;
 }
 
 private function onDataButtonClick():void
