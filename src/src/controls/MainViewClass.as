@@ -178,6 +178,7 @@ public function onSensorChange(e:PhidgetDataEvent):void
 				var elapsedTime:Number = stopTimeStamp - _startTimeStamp;
 				
 				
+				
 				var distunitsvalue:Number = .0254;
 				var speedunitsvalue:Number = 0.44704;
 				var temp:Number =  elapsedTime / 1000;

@@ -10,6 +10,7 @@
 	<s:states>
 		<s:State name="State1"/>
 	</s:states>
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>

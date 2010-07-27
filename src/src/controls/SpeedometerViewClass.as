@@ -13,6 +13,7 @@ public function set speed(value:Number):void
 	speedLabel.text = speedString;
 }
 
+
 public function get speed():Number
 {
 	return Number(speedLabel.text);
