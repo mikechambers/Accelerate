@@ -20,3 +20,6 @@ src/flex/bin-debug/*
 #Java Noise
 *.class
 
+#arduino / sketch noise
+src/arduino/Accelerate/applet/
+
