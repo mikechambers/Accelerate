@@ -28,7 +28,6 @@ public function set ledColor(value:String):void
 {
 	if(value == _ledColor)
 	{
-		trace("match");
 		return;
 	}
 		
@@ -57,7 +56,6 @@ public function set ledColor(value:String):void
 		}
 	}
 	
-	trace("--",led);
 	ledImage.source = null;
 	ledImage.source = led;	
 	
