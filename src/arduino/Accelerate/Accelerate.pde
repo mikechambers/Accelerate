@@ -48,9 +48,33 @@ void setup()
 
 void loop()
 {
+
 	if(Serial.available() > 0)
 	{
+		//Serial.println("data");
+		
+		/*
+		digitalWrite(13, HIGH);
+		delay(1000);
+		digitalWrite(13, LOW);
+		delay(1000);
+		digitalWrite(13, HIGH);
+		delay(1000);
+		digitalWrite(13, LOW);
+		delay(1000);
+		digitalWrite(13, HIGH);
+		delay(1000);
+		digitalWrite(13, LOW);
+		delay(1000);
+		digitalWrite(13, HIGH);
+		delay(1000);
+		digitalWrite(13, LOW);	
+		*/
+		
 		incoming = Serial.read();
+		
+		//Serial.println("incoming");
+		//Serial.print( 0, BYTE );		
 		
 		switch(incoming)
 		{

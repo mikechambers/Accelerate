@@ -21,7 +21,9 @@ package com.mikechambers.accelerate.serial
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
+	import flash.events.TimerEvent;
 	import flash.net.Socket;
+	import flash.utils.Timer;
 	
 	public class AccelerateSerialPort extends EventDispatcher
 	{
@@ -43,7 +45,7 @@ package com.mikechambers.accelerate.serial
 		private static const TRIP_THRESHHOLD:uint = 1;
 		
 		//ping from arduino that to determine if it is connected
-		private static const ARDUINO_PING_OUTGOING:uint = 3;
+		private static const ARDUINO_PING_OUTGOING:int = 3;
 		
 		//ping from arduino that to determine if it is connected
 		private static const ARDUINO_PING_INCOMING:String = "p";
@@ -223,24 +225,43 @@ package com.mikechambers.accelerate.serial
 			dispatchEvent( event.clone() );
 		}
 		
-		private function onConnect( event:Event ):void
+		private var connectDelayTimer:Timer;
+		
+		private function onConnectDelayTimer(event:TimerEvent):void
 		{
-			trace( "onConnect" );
+			trace("onConnectDelayTimer");
+			connectDelayTimer.stop();
 			
 			sendPing();
 			
+
 			if(_tripThreshhold && (!_tripThreshholdSent))
 			{
-				//send packet
-				sendTripThreshhold();
+			//send packet
+			sendTripThreshhold();
 			}
 			
 			if(_changeThreshhold && (!_changeThreshholdSent))
 			{
-				//send packet
-				//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
-				sendChangeThreshhold();
+			//send packet
+			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+			sendChangeThreshhold();
 			}
+		}
+		
+		private function onConnect( event:Event ):void
+		{
+			trace( "onConnect" );
+			
+			if(!connectDelayTimer)
+			{
+				connectDelayTimer = new Timer(2000);
+				connectDelayTimer.addEventListener(TimerEvent.TIMER, onConnectDelayTimer);
+			}
+			
+			connectDelayTimer.start();
+			
+
 			
 			dispatchEvent( event.clone() );
 		}
@@ -272,6 +293,8 @@ package com.mikechambers.accelerate.serial
 		private function onSocketData( event:ProgressEvent ):void
 		{
 			var data:String = _socket.readUTFBytes( _socket.bytesAvailable );
+			
+			trace("onSocketData : " + data);
 			
 			//todo: Need to ensure we have received entire packet (ends in \n)
 			//do we need to strip of the trailing \n?
