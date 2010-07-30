@@ -33,7 +33,7 @@
 		</controls:SensorStatusControl>
 		<controls:SensorStatusControl x="10.2" y="67.25" id="sensor2">
 		</controls:SensorStatusControl>
-		<controls:SensorStatusControl x="10.2" y="27.5" id="interfaceSensor">
+		<controls:SensorStatusControl x="10.2" y="27.5" id="arduinoDevice">
 		</controls:SensorStatusControl>
 	</s:BorderContainer>
 	<s:Label x="505" y="14" text="Sensor Status" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>

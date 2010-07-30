@@ -42,6 +42,9 @@ package com.mikechambers.accelerate.serial
 		//specifies percent change in light value to detect trip
 		private static const TRIP_THRESHHOLD:String = "tt";
 		
+		//ping from arduino that to determine if it is connected
+		private static const ARDUINO_PING:String = "p";
+		
 		//light sensor change threshold : packet type (outgoing)
 		//specifies how much light sensor value has to change before
 		//new value is sent from hardware
@@ -88,7 +91,18 @@ package com.mikechambers.accelerate.serial
 			_socket = null;
 		}
 		
-		private function set host(value:String):void
+		public function getSensorValue(sensor:String):Number
+		{
+			//todo: impliment
+			return 0;
+		}
+		
+		public function reset():void
+		{
+			//todo: impliment
+		}
+		
+		public function set host(value:String):void
 		{
 			if(value)
 			{
@@ -96,12 +110,12 @@ package com.mikechambers.accelerate.serial
 			}
 		}
 		
-		public function get host():void
+		public function get host():String
 		{
 			return _host;
 		}
 		
-		private function set port(value:uint):void
+		public function set port(value:uint):void
 		{
 			if(value)
 			{
@@ -109,7 +123,7 @@ package com.mikechambers.accelerate.serial
 			}
 		}
 		
-		public function get port():void
+		public function get port():uint
 		{
 			return _port;
 		}
@@ -137,7 +151,7 @@ package com.mikechambers.accelerate.serial
 			
 			if(_socket.connected)
 			{
-				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold);
+				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
 				_changeThreshholdSent = true;
 			}
 		}
@@ -150,7 +164,7 @@ package com.mikechambers.accelerate.serial
 			
 			if(_socket.connected)
 			{
-				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold);
+				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold));
 				_tripThreshholdSent = true;
 			}
 		}		
@@ -186,24 +200,33 @@ package com.mikechambers.accelerate.serial
 		{
 			trace( "onConnect" );
 			
+			this.send(createPacket(ARDUINO_PING, null));
+			
 			if(_tripThreshhold && (!_tripThreshholdSent))
 			{
 				//send packet
-				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold);
+				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold));
 			}
 			
 			if(_changeThreshhold && (!_changeThreshholdSent))
 			{
 				//send packet
-				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold);
+				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
 			}
 			
 			dispatchEvent( event.clone() );
 		}
 		
-		private function createPacket(type:String, value:String):void
+		private function createPacket(type:String, value:*):String
 		{
-			return type + PACKET_DELIMETER + value;
+			if(value == null)
+			{
+				return type;
+			}
+			
+			//todo : do we need EOL / \n
+			
+			return type + PACKET_DELIMETER + String(value);
 		}
 		
 		private function onIOErrorEvent( event:IOErrorEvent ):void
@@ -224,21 +247,25 @@ package com.mikechambers.accelerate.serial
 			
 			//todo: Need to ensure we have received entire packet (ends in \n)
 			//do we need to strip of the trailing \n?
-			var packet:String = data.split(PACKET_DELIMETER);
+			var packet:Array = data.split(PACKET_DELIMETER);
 			
 			var messageType:String = packet[0];
 			
-			var type:String;
-			
 			//packet : eventType \t [sensor] \t additionalData
 			
-			var out:AccelerateDataEvent = new AccelerateDataEvent();
+			var out:AccelerateDataEvent;
 			switch(messageType)
 			{
+				case ARDUINO_PING:
+				{
+					out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_CONNECT);
+					break;
+				}
 				case LIGHT_SENSOR_TRIP:
 				{
 					//packet: LIGHT_SENSOR_TRIP\tLIGHT_SENSOR_1
-					out.type = AccelerateDataEvent.LIGHT_SENSOR_TRIP;
+					
+					out = new AccelerateDataEvent(AccelerateDataEvent.LIGHT_SENSOR_TRIP);
 					
 					//figure out which sensor was tripped, and make sure we
 					//recognize the sensor
@@ -246,6 +273,7 @@ package com.mikechambers.accelerate.serial
 					{
 						case LIGHT_SENSOR_1:
 						{
+							
 							out.sensor = LIGHT_SENSOR_1;
 							break;
 						}
@@ -265,7 +293,8 @@ package com.mikechambers.accelerate.serial
 				case LIGHT_SENSOR_UPDATE:
 				{
 					//packet: LIGHT_SENSOR_UPDATE\tLIGHT_SENSOR_1\tVALUE
-					out.type = AccelerateDataEvent.LIGHT_SENSOR_UPDATE;
+					
+					out = new AccelerateDataEvent(AccelerateDataEvent.LIGHT_SENSOR_UPDATE);
 					
 					//figure out which sensor was tripped, and make sure we
 					//recognize the sensor
@@ -294,7 +323,8 @@ package com.mikechambers.accelerate.serial
 				case ELAPSED_TIME:
 				{
 					//packet: ELAPSED_TIME\tTOTAL_ELAPSED_TIME
-					out.type = AccelerateDataEvent.TOTAL_TIME;
+					
+					out = new AccelerateDataEvent(AccelerateDataEvent.TOTAL_TIME);
 					out.totalElapsedTime = packet[1];
 					break;
 				}
