@@ -14,7 +14,7 @@ profile
 .project
 .settings
 bin/*
-src/bin-debug/*
+src/flex/bin-debug/*
 .flexLibProperties
 
 #Java Noise
