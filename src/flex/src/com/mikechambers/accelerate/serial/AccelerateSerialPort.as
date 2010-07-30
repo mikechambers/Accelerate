@@ -40,15 +40,18 @@ package com.mikechambers.accelerate.serial
 		
 		//light sensor trip threshold : packet type (outgoing)
 		//specifies percent change in light value to detect trip
-		private static const TRIP_THRESHHOLD:String = "tt";
+		private static const TRIP_THRESHHOLD:uint = 1;
 		
 		//ping from arduino that to determine if it is connected
-		private static const ARDUINO_PING:String = "p";
+		private static const ARDUINO_PING_OUTGOING:uint = 3;
+		
+		//ping from arduino that to determine if it is connected
+		private static const ARDUINO_PING_INCOMING:String = "p";
 		
 		//light sensor change threshold : packet type (outgoing)
 		//specifies how much light sensor value has to change before
 		//new value is sent from hardware
-		private static const CHANGE_THRESHHOLD:String = "ct";
+		private static const CHANGE_THRESHHOLD:uint = 2;
 		
 		//we figure out elapsed time in hardware so we dont have to worry
 		//about results being skewed by latency
@@ -151,9 +154,34 @@ package com.mikechambers.accelerate.serial
 			
 			if(_socket.connected)
 			{
-				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
-				_changeThreshholdSent = true;
+				sendChangeThreshhold();
 			}
+		}
+		
+		private function sendChangeThreshhold():void
+		{
+			_socket.writeByte(CHANGE_THRESHHOLD);
+			_socket.writeByte(_changeThreshhold);
+			_socket.flush();
+			
+			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+			_changeThreshholdSent = true;
+		}
+		
+		private function sendTripThreshhold():void
+		{
+			_socket.writeByte(TRIP_THRESHHOLD);
+			_socket.writeByte(_tripThreshhold);
+			_socket.flush();
+			
+			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+			_tripThreshholdSent = true;
+		}
+		
+		private function sendPing():void
+		{
+			_socket.writeByte(ARDUINO_PING_OUTGOING);
+			_socket.flush();
 		}
 		
 		//change necessary to trigger light trip trigger
@@ -164,8 +192,7 @@ package com.mikechambers.accelerate.serial
 			
 			if(_socket.connected)
 			{
-				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold));
-				_tripThreshholdSent = true;
+				sendTripThreshhold();
 			}
 		}		
 		
@@ -200,18 +227,19 @@ package com.mikechambers.accelerate.serial
 		{
 			trace( "onConnect" );
 			
-			this.send(createPacket(ARDUINO_PING, null));
+			sendPing();
 			
 			if(_tripThreshhold && (!_tripThreshholdSent))
 			{
 				//send packet
-				this.send(createPacket(TRIP_THRESHHOLD, _tripThreshhold));
+				sendTripThreshhold();
 			}
 			
 			if(_changeThreshhold && (!_changeThreshholdSent))
 			{
 				//send packet
-				this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+				//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+				sendChangeThreshhold();
 			}
 			
 			dispatchEvent( event.clone() );
@@ -256,7 +284,7 @@ package com.mikechambers.accelerate.serial
 			var out:AccelerateDataEvent;
 			switch(messageType)
 			{
-				case ARDUINO_PING:
+				case ARDUINO_PING_INCOMING:
 				{
 					out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_CONNECT);
 					break;
