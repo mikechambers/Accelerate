@@ -200,6 +200,8 @@ package com.mikechambers.accelerate.serial
 		
 		public function connect( host:String = null, port:int = 0 ):void
 		{			
+			stopReconnectTimer();
+			
 			this.host = host;
 			this.port = port;			
 			
@@ -209,7 +211,6 @@ package com.mikechambers.accelerate.serial
 			}
 			
 			_socket.connect( _host, _port );
-			trace( "connecting" );
 		}
 		
 		public function send( value:String ):void
@@ -222,18 +223,82 @@ package com.mikechambers.accelerate.serial
 		private function onClose( event:Event ):void
 		{
 			trace( "onClose" );
+			stopTimers();
+			startReconnectTimer();
+			arduinoConnected = false;
 			dispatchEvent( event.clone() );
 		}
 		
-		private var connectDelayTimer:Timer;
+		private var connectTimer:Timer;
+		public static const PING_INTERVAL:uint = 3000;
+		private var arduinoConnected:Boolean = false;
 		
-		private function onConnectDelayTimer(event:TimerEvent):void
+		private var arduinoPingTimer:Timer;
+		
+		private function onArduinoPingTimer(event:TimerEvent):void
+		{
+			arduinoPingTimer.stop();
+			sendPing();
+		}
+		
+		private function stopTimers():void
+		{
+			if(arduinoPingTimer)
+			{
+				arduinoPingTimer.stop();
+			}
+			
+			if(connectTimer)
+			{
+				connectTimer.stop();
+			}
+		}
+		
+		private function startPingTimer():void
+		{
+			if(!arduinoPingTimer)
+			{
+				arduinoPingTimer = new Timer(PING_INTERVAL);
+				arduinoPingTimer.addEventListener(TimerEvent.TIMER, onArduinoPingTimer);
+			}
+			
+			arduinoPingTimer.start();
+		}
+		
+		private var reconnectTimer:Timer;
+		private static const RECONNECT_INTERVAL:uint = 5000;
+		private function onReconnectTimer(event:TimerEvent):void
+		{
+			trace("onReconnectTimer");
+			stopReconnectTimer();
+			connect();
+		}
+		
+		private function startReconnectTimer():void
+		{
+			if(!reconnectTimer)
+			{
+				reconnectTimer = new Timer(RECONNECT_INTERVAL);
+				reconnectTimer.addEventListener(TimerEvent.TIMER, onReconnectTimer);
+			}
+			
+			reconnectTimer.start();
+		}
+		
+		private function stopReconnectTimer():void
+		{
+			if(reconnectTimer)
+			{
+				reconnectTimer.stop();
+			}
+		}
+		
+		private function onConnectTimer(event:TimerEvent):void
 		{
 			trace("onConnectDelayTimer");
-			connectDelayTimer.stop();
+			connectTimer.stop();
 			
 			sendPing();
-			
 
 			if(_tripThreshhold && (!_tripThreshholdSent))
 			{
@@ -243,9 +308,9 @@ package com.mikechambers.accelerate.serial
 			
 			if(_changeThreshhold && (!_changeThreshholdSent))
 			{
-			//send packet
-			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
-			sendChangeThreshhold();
+				//send packet
+				//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+				sendChangeThreshhold();
 			}
 		}
 		
@@ -253,13 +318,18 @@ package com.mikechambers.accelerate.serial
 		{
 			trace( "onConnect" );
 			
-			if(!connectDelayTimer)
+			if(reconnectTimer)
 			{
-				connectDelayTimer = new Timer(2000);
-				connectDelayTimer.addEventListener(TimerEvent.TIMER, onConnectDelayTimer);
+				reconnectTimer.stop();
 			}
 			
-			connectDelayTimer.start();
+			if(!connectTimer)
+			{
+				connectTimer = new Timer(PING_INTERVAL);
+				connectTimer.addEventListener(TimerEvent.TIMER, onConnectTimer);
+			}
+			
+			connectTimer.start();
 			
 
 			
@@ -308,8 +378,14 @@ package com.mikechambers.accelerate.serial
 			switch(messageType)
 			{
 				case ARDUINO_PING_INCOMING:
-				{
-					out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_CONNECT);
+				{	
+					if(!arduinoConnected)
+					{
+						out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_ATTACH);
+						arduinoConnected = true;
+					}
+					
+					startPingTimer();
 					break;
 				}
 				case LIGHT_SENSOR_TRIP:
@@ -388,7 +464,10 @@ package com.mikechambers.accelerate.serial
 				}
 			}
 			
-			dispatchEvent(out);
+			if(out)
+			{
+				dispatchEvent(out);
+			}
 		}
 		
 	}

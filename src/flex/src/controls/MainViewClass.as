@@ -48,7 +48,7 @@ private function onCreationComplete():void
 	arduino.addEventListener(AccelerateDataEvent.TOTAL_TIME, onSensorTotalTime);
 	
 	//connected to the arduino hardware
-	arduino.addEventListener(AccelerateDataEvent.ARDUINO_CONNECT, onArduinoConnect);
+	arduino.addEventListener(AccelerateDataEvent.ARDUINO_ATTACH, onArduinoConnect);
 	
 
 	arduino.connect();

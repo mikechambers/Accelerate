@@ -7,7 +7,8 @@ package com.mikechambers.accelerate.events
 		public static const LIGHT_SENSOR_UPDATE:String = "onLightSensorUpdate";
 		public static const LIGHT_SENSOR_TRIP:String = "onLightSensorTrip";
 		public static const TOTAL_TIME:String = "onTotalTime";
-		public static const ARDUINO_CONNECT:String = "onArduinoConnect";
+		public static const ARDUINO_ATTACH:String = "onArduinoAttach";
+		public static const ARDUINO_DETACH:String = "onArduinoDetach";
 		
 		
 		public var sensor:String;
