@@ -180,10 +180,32 @@ package com.mikechambers.accelerate.serial
 			_tripThreshholdSent = true;
 		}
 		
+		private var pingTimeoutTimer:Timer;
+		
 		private function sendPing():void
 		{
+			if(!pingTimeoutTimer)
+			{
+				pingTimeoutTimer = new Timer(ARDUINO_PING_TIMEROUT_INTERVAL);
+				pingTimeoutTimer.addEventListener(TimerEvent.TIMER, onPingTimeout);
+				pingTimeoutTimer.repeatCount = 1;
+			}
+			
+			pingTimeoutTimer.reset();
+			pingTimeoutTimer.start();
+			
 			_socket.writeByte(ARDUINO_PING_OUTGOING);
 			_socket.flush();
+		}
+		
+		private function onPingTimeout(event:TimerEvent):void
+		{
+			pingTimeoutTimer.stop();
+			arduinoConnected = false;
+			
+			var out:AccelerateDataEvent = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_DETACH);
+			
+			dispatchEvent(out);
 		}
 		
 		//change necessary to trigger light trip trigger
@@ -267,6 +289,9 @@ package com.mikechambers.accelerate.serial
 		
 		private var reconnectTimer:Timer;
 		private static const RECONNECT_INTERVAL:uint = 5000;
+		
+		private static const ARDUINO_PING_TIMEROUT_INTERVAL:uint = 1;
+		
 		private function onReconnectTimer(event:TimerEvent):void
 		{
 			trace("onReconnectTimer");
@@ -351,6 +376,8 @@ package com.mikechambers.accelerate.serial
 		private function onIOErrorEvent( event:IOErrorEvent ):void
 		{
 			trace( "onIOErrorEvent" );
+			
+			startReconnectTimer();
 			dispatchEvent( event.clone() );
 		}
 		

@@ -50,6 +50,8 @@ private function onCreationComplete():void
 	//connected to the arduino hardware
 	arduino.addEventListener(AccelerateDataEvent.ARDUINO_ATTACH, onArduinoConnect);
 	
+	arduino.addEventListener(AccelerateDataEvent.ARDUINO_DETACH, onArduinoDetach);
+	
 
 	arduino.connect();
 }
@@ -129,6 +131,11 @@ private function onArduinoConnect(event:AccelerateDataEvent):void
 	resetButton.enabled = true;
 	
 	reset();
+}
+
+private function onArduinoDetach(event:AccelerateDataEvent):void
+{
+	arduinoDevice.ledColor = LEDControl.RED;
 }
 
 private function reset():void
