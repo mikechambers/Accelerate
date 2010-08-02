@@ -23,6 +23,8 @@ package com.mikechambers.accelerate.serial
 	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
 	import flash.net.Socket;
+	import flash.utils.ByteArray;
+	import flash.utils.Endian;
 	import flash.utils.Timer;
 	
 	public class AccelerateSerialPort extends EventDispatcher
@@ -68,6 +70,7 @@ package com.mikechambers.accelerate.serial
 		private var _port		: uint;
 		private var _socket		: Socket;
 		
+		private var pingBytes:ByteArray;
 		
 		public function AccelerateSerialPort( host:String = null, port:int = 0 )
 		{
@@ -76,12 +79,20 @@ package com.mikechambers.accelerate.serial
 			this.host = host;
 			this.port = port;
 			
+			
+			pingBytes = new ByteArray();
+			pingBytes.writeByte(ARDUINO_PING_OUTGOING);
+			pingBytes.writeByte(0);
+			pingBytes.writeByte(0);			
+			
 			_socket = new Socket();
 			_socket.addEventListener( Event.CLOSE, onClose );
 			_socket.addEventListener( Event.CONNECT, onConnect );
 			_socket.addEventListener( IOErrorEvent.IO_ERROR, onIOErrorEvent );
 			_socket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
 			_socket.addEventListener( ProgressEvent.SOCKET_DATA, onSocketData );
+			
+			_socket.endian = Endian.LITTLE_ENDIAN;
 		}
 		
 		public function dealloc():void
@@ -163,7 +174,7 @@ package com.mikechambers.accelerate.serial
 		private function sendChangeThreshhold():void
 		{
 			_socket.writeByte(CHANGE_THRESHHOLD);
-			_socket.writeByte(_changeThreshhold);
+			_socket.writeShort(_changeThreshhold);
 			_socket.flush();
 			
 			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
@@ -173,7 +184,7 @@ package com.mikechambers.accelerate.serial
 		private function sendTripThreshhold():void
 		{
 			_socket.writeByte(TRIP_THRESHHOLD);
-			_socket.writeByte(_tripThreshhold);
+			_socket.writeShort(_tripThreshhold);
 			_socket.flush();
 			
 			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
@@ -194,7 +205,7 @@ package com.mikechambers.accelerate.serial
 			pingTimeoutTimer.reset();
 			pingTimeoutTimer.start();
 			
-			_socket.writeByte(ARDUINO_PING_OUTGOING);
+			_socket.writeBytes(pingBytes);
 			_socket.flush();
 		}
 		
@@ -283,14 +294,14 @@ package com.mikechambers.accelerate.serial
 				arduinoPingTimer = new Timer(PING_INTERVAL);
 				arduinoPingTimer.addEventListener(TimerEvent.TIMER, onArduinoPingTimer);
 			}
-			
+			arduinoPingTimer.reset();
 			arduinoPingTimer.start();
 		}
 		
 		private var reconnectTimer:Timer;
 		private static const RECONNECT_INTERVAL:uint = 5000;
 		
-		private static const ARDUINO_PING_TIMEROUT_INTERVAL:uint = 1;
+		private static const ARDUINO_PING_TIMEROUT_INTERVAL:uint = 1000;
 		
 		private function onReconnectTimer(event:TimerEvent):void
 		{
@@ -328,7 +339,7 @@ package com.mikechambers.accelerate.serial
 			if(_tripThreshhold && (!_tripThreshholdSent))
 			{
 			//send packet
-			sendTripThreshhold();
+				sendTripThreshhold();
 			}
 			
 			if(_changeThreshhold && (!_changeThreshholdSent))
@@ -406,12 +417,13 @@ package com.mikechambers.accelerate.serial
 			{
 				case ARDUINO_PING_INCOMING:
 				{	
+					pingTimeoutTimer.stop();
 					if(!arduinoConnected)
 					{
 						out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_ATTACH);
 						arduinoConnected = true;
 					}
-					
+										
 					startPingTimer();
 					break;
 				}

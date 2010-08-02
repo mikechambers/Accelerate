@@ -36,56 +36,64 @@
 
 #define PACKET_EOL "\n"
 
-int incoming = 0;
+
+//union that we will use
+//the construct the int
+//from the individual bytes
+//sent from Flash / ActionScript
+//we reuse this for all conversions
+union u_tag
+{
+    byte b[2];
+    int ival;
+} u;
+
+int packetType = 0;
+int packetData = 0;
 int tripThreshhold = 75;
 int changeThreshhold = 100;
 
 void setup()
 {
 	//todo: try larger values
-	Serial.begin(9600);
+	Serial.begin(57600);
 }
 
 void loop()
 {
 
-	if(Serial.available() > 0)
+        //incoming packets are currently all
+        //3 bytes
+        // byte 1 : packet type
+        // byte 2 and 3 : data (short / int)
+	if(Serial.available() > 2)
 	{
-		//Serial.println("data");
 		
-		/*
-		digitalWrite(13, HIGH);
-		delay(1000);
-		digitalWrite(13, LOW);
-		delay(1000);
-		digitalWrite(13, HIGH);
-		delay(1000);
-		digitalWrite(13, LOW);
-		delay(1000);
-		digitalWrite(13, HIGH);
-		delay(1000);
-		digitalWrite(13, LOW);
-		delay(1000);
-		digitalWrite(13, HIGH);
-		delay(1000);
-		digitalWrite(13, LOW);	
-		*/
-		
-		incoming = Serial.read();
+		packetType = Serial.read();
+
+                u.b[0] = Serial.read();
+                u.b[1] = Serial.read();
+
+                packetData = u.ival;
 		
 		//Serial.println("incoming");
 		//Serial.print( 0, BYTE );		
 		
-		switch(incoming)
+		switch(packetType)
 		{
 			case TRIP_THRESHHOLD:
 			{
-				tripThreshhold = Serial.read();
+				tripThreshhold = packetData;
+
+ Serial.println(tripThreshhold, DEC);
+ Serial.print(0, BYTE);
 				break;
 			}
 			case CHANGE_THRESHHOLD:
 			{
-				changeThreshhold = Serial.read();
+  Serial.println(changeThreshhold, DEC);
+ Serial.print(0, BYTE);
+				changeThreshhold = packetData;
 				break;
 			}
 			case ARDUINO_PING_INCOMING:
