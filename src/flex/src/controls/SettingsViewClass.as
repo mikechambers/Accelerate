@@ -14,8 +14,8 @@ private function updateSettings():void
 {
 	addressInput.text = _settings.serverAddress;
 	portInput.text = String(_settings.serverPort);
-	thresholdSlider.value = _settings.lightSensorThreshold;
-	changeTriggerSlider.value = _settings.lightSensorChangeTrigger;
+	tripThresholdSlider.value = _settings.lightSensorTripThreshold;
+	changeThresholdSlider.value = _settings.lightSensorChangeThreshold;
 	sensorDistanceInput.text = String(_settings.lightSensorDistance);
 	
 	saveButton.enabled = false;
@@ -24,14 +24,19 @@ private function updateSettings():void
 
 private function onSaveClick():void
 {
-	_settings.serverAddress = addressInput.text;
-	_settings.serverPort = uint(portInput.text);
-	_settings.lightSensorThreshold = thresholdSlider.value;
-	_settings.lightSensorChangeTrigger = uint(changeTriggerSlider.value);
-	_settings.lightSensorDistance = Number(sensorDistanceInput.text);
+	var s:Settings = new Settings();
+	s.serverAddress = addressInput.text;
+	s.serverPort = uint(portInput.text);
+	
+	s.lightSensorTripThreshold = uint(tripThresholdSlider.value);
+	s.lightSensorChangeThreshold = uint(changeThresholdSlider.value);
+	
+	s.lightSensorDistance = Number(sensorDistanceInput.text);
 	
 	var e:SettingsEvent = new SettingsEvent(SettingsEvent.UPDATED);
-	e.settings = _settings;
+	e.settings = s;
+	
+	_settings = s;
 	
 	//bug: no code hint for this
 	dispatchEvent(e);

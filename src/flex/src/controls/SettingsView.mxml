@@ -19,18 +19,21 @@
 		
 		<s:Label x="16" y="64" text="Proxy Address :" width="88" textAlign="right"/>
 		<s:Label x="16" y="101" text="Proxy Port :" width="86" textAlign="right" />
-		<s:Label x="16" y="181" text="Light Sensor Threshold :" width="165" textAlign="right"/>
-		<s:Label x="16" y="231" text="Light Sensor Change Trigger :" width="165" textAlign="right"/>
-		<s:HSlider x="193" y="230" minimum="0" maximum="1000" stepSize="50" id="changeTriggerSlider" change="onChange()"/>
-		<s:Label x="307" y="225" width="31" text="{changeTriggerSlider.value}"/>
+		<s:Label x="16" y="181" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
+		<s:Label x="16" y="231" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
+		<s:HSlider x="193" y="230" minimum="0" maximum="1000" stepSize="50" id="changeThresholdSlider" change="onChange()"/>
+		<s:Label x="307" y="225" width="31" text="{changeThresholdSlider.value}"/>
 		<s:TextInput x="106" y="60" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
 		<s:TextInput x="106" y="95" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:HSlider x="193" y="180" minimum="0" maximum="100" stepSize="5" id="thresholdSlider" change="onChange()"/>
-		<s:Label x="307" y="175" width="31" text="{thresholdSlider.value}"/>
-		<s:Button x="23" y="287" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" click="onSaveClick()" id="saveButton"/>
-		<s:Button x="193" y="287" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" click="onCancelClick()" id="cancelButton"/>
+		<s:HSlider x="193" y="180" minimum="0" maximum="100" stepSize="5" id="tripThresholdSlider" change="onChange()"/>
+		<s:Label x="307" y="175" width="31" text="{tripThresholdSlider.value}"/>
+		<s:Button x="23" y="287" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
+				  click="onSaveClick()" id="saveButton"/>
+		<s:Button x="193" y="287" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
+				  click="onCancelClick()" id="cancelButton"/>
 		<s:Label x="51" y="142" text="Light Sensor Distance :"/>
-		<s:TextInput x="189" y="136" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" change="onChange()" restrict=".0-9"/>
+		<s:TextInput x="189" y="136" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
+					 change="onChange()" restrict=".0-9"/>
 		<s:Label x="252" y="143" text="Inches"/>
 		
 	</s:BorderContainer>

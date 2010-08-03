@@ -66,11 +66,30 @@ package com.mikechambers.accelerate.serial
 		//string delimter used to seperate values in packet
 		private static const PACKET_DELIMETER:String = "\t";
 		
-		private var _host		: String;
-		private var _port		: uint;
-		private var _socket		: Socket;
+		private var _host:String;
+		private var _port:uint;
+		private var _socket:Socket;
 		
 		private var pingBytes:ByteArray;
+		
+		private var _changeThreshhold:uint;
+		private var _changeThreshholdSent:Boolean = false;
+		
+		private var _tripThreshhold:uint;
+		private var _tripThreshholdSent:Boolean = false;
+		
+		private var pingTimeoutTimer:Timer;
+		
+		private var connectTimer:Timer;
+		public static const PING_INTERVAL:uint = 3000;
+		private var arduinoConnected:Boolean = false;
+		
+		private var arduinoPingTimer:Timer;
+		
+		private var reconnectTimer:Timer;
+		private static const RECONNECT_INTERVAL:uint = 5000;
+		
+		private static const ARDUINO_PING_TIMEROUT_INTERVAL:uint = 1000;
 		
 		public function AccelerateSerialPort( host:String = null, port:int = 0 )
 		{
@@ -154,11 +173,7 @@ package com.mikechambers.accelerate.serial
 			_socket.close();
 		}
 		
-		private var _changeThreshhold:uint;
-		private var _changeThreshholdSent:Boolean = false;
-		
-		private var _tripThreshhold:uint;
-		private var _tripThreshholdSent:Boolean = false;
+
 		
 		//specified in milliseconds
 		public function set changeThreshhold(value:uint):void
@@ -175,9 +190,7 @@ package com.mikechambers.accelerate.serial
 		{
 			_socket.writeByte(CHANGE_THRESHHOLD);
 			_socket.writeShort(_changeThreshhold);
-			_socket.flush();
 			
-			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
 			_changeThreshholdSent = true;
 		}
 		
@@ -185,13 +198,9 @@ package com.mikechambers.accelerate.serial
 		{
 			_socket.writeByte(TRIP_THRESHHOLD);
 			_socket.writeShort(_tripThreshhold);
-			_socket.flush();
 			
-			//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
 			_tripThreshholdSent = true;
 		}
-		
-		private var pingTimeoutTimer:Timer;
 		
 		private function sendPing():void
 		{
@@ -213,6 +222,8 @@ package com.mikechambers.accelerate.serial
 		{
 			pingTimeoutTimer.stop();
 			arduinoConnected = false;
+			_tripThreshholdSent = false;
+			_changeThreshholdSent = false;
 			
 			var out:AccelerateDataEvent = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_DETACH);
 			
@@ -262,12 +273,6 @@ package com.mikechambers.accelerate.serial
 			dispatchEvent( event.clone() );
 		}
 		
-		private var connectTimer:Timer;
-		public static const PING_INTERVAL:uint = 3000;
-		private var arduinoConnected:Boolean = false;
-		
-		private var arduinoPingTimer:Timer;
-		
 		private function onArduinoPingTimer(event:TimerEvent):void
 		{
 			arduinoPingTimer.stop();
@@ -297,11 +302,6 @@ package com.mikechambers.accelerate.serial
 			arduinoPingTimer.reset();
 			arduinoPingTimer.start();
 		}
-		
-		private var reconnectTimer:Timer;
-		private static const RECONNECT_INTERVAL:uint = 5000;
-		
-		private static const ARDUINO_PING_TIMEROUT_INTERVAL:uint = 1000;
 		
 		private function onReconnectTimer(event:TimerEvent):void
 		{
@@ -335,19 +335,6 @@ package com.mikechambers.accelerate.serial
 			connectTimer.stop();
 			
 			sendPing();
-
-			if(_tripThreshhold && (!_tripThreshholdSent))
-			{
-			//send packet
-				sendTripThreshhold();
-			}
-			
-			if(_changeThreshhold && (!_changeThreshholdSent))
-			{
-				//send packet
-				//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
-				sendChangeThreshhold();
-			}
 		}
 		
 		private function onConnect( event:Event ):void
@@ -420,8 +407,21 @@ package com.mikechambers.accelerate.serial
 					pingTimeoutTimer.stop();
 					if(!arduinoConnected)
 					{
-						out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_ATTACH);
+						if(_changeThreshhold && (!_changeThreshholdSent))
+						{
+							//send packet
+							//this.send(createPacket(CHANGE_THRESHHOLD, _changeThreshhold));
+							sendChangeThreshhold();
+						}							
+						
+						if(_tripThreshhold && (!_tripThreshholdSent))
+						{
+							//send packet
+							sendTripThreshhold();
+						}					
+						
 						arduinoConnected = true;
+						out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_ATTACH);
 					}
 										
 					startPingTimer();

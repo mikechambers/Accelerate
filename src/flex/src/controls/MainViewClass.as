@@ -12,48 +12,20 @@ import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.events.SecurityErrorEvent;
 
-private var arduino:AccelerateSerialPort;
+
 
 private var _settings:Settings;
 
 private var _lastLightSensor_1_value:uint;
 private var _lastLightSensor_2_value:uint;
 
+private var _arduino:AccelerateSerialPort;
+
 private function onCreationComplete():void
 {
 	sensor1.label = "Light Sensor 1";
 	sensor2.label = "Light Sensor 2";
 	arduinoDevice.label = "Arduino";
-	
-	arduino = new AccelerateSerialPort(_settings.serverAddress, _settings.serverPort);
-	
-	//rename stuff here?
-	arduino.tripThreshhold = _settings.lightSensorChangeTrigger;
-	arduino.changeThreshhold = _settings.lightSensorThreshold;
-	
-	arduino.addEventListener( Event.CLOSE, onClose );
-	
-	//connected to the proxy server (but not the hardware).
-	arduino.addEventListener( Event.CONNECT, onConnect );
-	arduino.addEventListener( IOErrorEvent.IO_ERROR, onIOErrorEvent );
-	arduino.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
-	
-	//a light sensor has tripped
-	arduino.addEventListener(AccelerateDataEvent.LIGHT_SENSOR_TRIP, onLightSensorTrip);
-	
-	//value of light sensor has updated
-	arduino.addEventListener(AccelerateDataEvent.LIGHT_SENSOR_UPDATE, onLightSensorUpdate);
-	
-	//both light sensors have tripped, and total time between trips is available
-	arduino.addEventListener(AccelerateDataEvent.TOTAL_TIME, onSensorTotalTime);
-	
-	//connected to the arduino hardware
-	arduino.addEventListener(AccelerateDataEvent.ARDUINO_ATTACH, onArduinoConnect);
-	
-	arduino.addEventListener(AccelerateDataEvent.ARDUINO_DETACH, onArduinoDetach);
-	
-
-	arduino.connect();
 }
 
 public function set settings(value:Settings):void
@@ -61,13 +33,37 @@ public function set settings(value:Settings):void
 	_settings = value;
 }
 
+public function set arduino(value:AccelerateSerialPort):void
+{
+	//todo: we should make sure to remove listeners in case another
+	//arduino instance is passed in.
+	_arduino = value;	
+	
+	//a light sensor has tripped
+	_arduino.addEventListener(AccelerateDataEvent.LIGHT_SENSOR_TRIP, onLightSensorTrip);
+	
+	//value of light sensor has updated
+	_arduino.addEventListener(AccelerateDataEvent.LIGHT_SENSOR_UPDATE, onLightSensorUpdate);
+	
+	//both light sensors have tripped, and total time between trips is available
+	_arduino.addEventListener(AccelerateDataEvent.TOTAL_TIME, onSensorTotalTime);
+	
+	//connected to the arduino hardware
+	_arduino.addEventListener(AccelerateDataEvent.ARDUINO_ATTACH, onArduinoConnect);
+	
+	_arduino.addEventListener(AccelerateDataEvent.ARDUINO_DETACH, onArduinoDetach);
+	
+	_arduino.addEventListener( Event.CLOSE, onClose );
+	
+}
+
 public override function set enabled(value:Boolean):void
 {
 	super.enabled = value;
 	
-	if(arduino)
+	if(_arduino)
 	{
-		resetButton.enabled = arduino.connected;
+		resetButton.enabled = _arduino.connected;
 	}
 }
 
@@ -109,21 +105,6 @@ private function onSensorTotalTime(event:AccelerateDataEvent):void
 	
 }
 
-private function onIOErrorEvent(event:IOErrorEvent):void
-{
-	trace("IOErrorEvent : " + event.text);	
-}
-
-private function onSecurityError(event:SecurityErrorEvent):void
-{
-	trace("SecurityErrorEvent : " + event.text );	
-}
-
-private function onConnect(e:Event):void
-{
-	trace("-------onConnect-------");
-}
-
 private function onArduinoConnect(event:AccelerateDataEvent):void
 {
 	arduinoDevice.ledColor = LEDControl.GREEN;
@@ -140,8 +121,8 @@ private function onArduinoDetach(event:AccelerateDataEvent):void
 
 private function reset():void
 {
-	_lastLightSensor_1_value = arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_1);
-	_lastLightSensor_2_value = arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_2);
+	//_lastLightSensor_1_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_1);
+	//_lastLightSensor_2_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_2);
 	
 	sensor1.ledColor = (_lastLightSensor_1_value == 0)?LEDControl.RED:LEDControl.GREEN;
 	sensor2.ledColor = (_lastLightSensor_2_value == 0)?LEDControl.RED:LEDControl.GREEN;	

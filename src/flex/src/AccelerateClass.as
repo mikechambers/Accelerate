@@ -1,6 +1,8 @@
+import com.mikechambers.accelerate.events.AccelerateDataEvent;
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.SettingsEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
+import com.mikechambers.accelerate.serial.AccelerateSerialPort;
 import com.mikechambers.accelerate.settings.Settings;
 
 import flash.events.Event;
@@ -21,10 +23,26 @@ public static const DATA_BUTTON_INDEX:uint = 2;
 private static const SETTINGS_FILE_NAME:String = "accelerate.settings";
 
 public var settings:Settings;
+private var arduino:AccelerateSerialPort;
 
 private function onCreationComplete():void
 {
 	navButtonBar.selectedIndex = MAIN_BUTTON_INDEX;
+	
+	arduino = new AccelerateSerialPort(settings.serverAddress, settings.serverPort);
+	
+	mainView.arduino = arduino;
+	
+	//rename stuff here?
+	arduino.tripThreshhold = settings.lightSensorChangeThreshold;
+	arduino.changeThreshhold = settings.lightSensorTripThreshold;
+	
+	//connected to the proxy server (but not the hardware).
+	arduino.addEventListener( Event.CONNECT, onConnect );
+	arduino.addEventListener( IOErrorEvent.IO_ERROR, onIOErrorEvent );
+	arduino.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
+	
+	arduino.connect();
 }
 
 private function onInitialize():void
@@ -34,8 +52,40 @@ private function onInitialize():void
 	settingsView.settings = settings;
 }
 
+private function onIOErrorEvent(event:IOErrorEvent):void
+{
+	trace("IOErrorEvent : " + event.text);	
+}
+
+private function onSecurityError(event:SecurityErrorEvent):void
+{
+	trace("SecurityErrorEvent : " + event.text );	
+}
+
+private function onConnect(e:Event):void
+{
+	trace("-------onConnect-------");
+}
+
+private function onArduinoConnect(event:AccelerateDataEvent):void
+{
+	trace("arduino connect");
+}
+
 private function onSettingsUpdated(e:SettingsEvent):void
 {
+	if(settings.lightSensorTripThreshold != 
+		e.settings.lightSensorTripThreshold)
+	{
+		arduino.tripThreshhold = e.settings.lightSensorTripThreshold;
+	}
+	
+	if(settings.lightSensorChangeThreshold !=
+		e.settings.lightSensorChangeThreshold)
+	{
+		arduino.changeThreshhold = e.settings.lightSensorChangeThreshold;
+	}
+	
 	settings = e.settings;
 	
 	saveSettings();

@@ -56,12 +56,12 @@ int changeThreshhold = 100;
 void setup()
 {
 	//todo: try larger values
-	Serial.begin(57600);
+	Serial.begin(19200);
 }
 
 void loop()
 {
-
+        delay(100);
         //incoming packets are currently all
         //3 bytes
         // byte 1 : packet type
@@ -84,16 +84,17 @@ void loop()
 			case TRIP_THRESHHOLD:
 			{
 				tripThreshhold = packetData;
-
- Serial.println(tripThreshhold, DEC);
+ Serial.print("Trip Threshhold : ");
+ Serial.print(tripThreshhold, DEC);
  Serial.print(0, BYTE);
 				break;
 			}
 			case CHANGE_THRESHHOLD:
 			{
-  Serial.println(changeThreshhold, DEC);
- Serial.print(0, BYTE);
 				changeThreshhold = packetData;
+  Serial.print("Change Threshhold : ");
+  Serial.print(changeThreshhold, DEC);
+ Serial.print(0, BYTE);
 				break;
 			}
 			case ARDUINO_PING_INCOMING:
