@@ -51,6 +51,8 @@ package com.mikechambers.accelerate.serial
 		//ping from arduino that to determine if it is connected
 		private static const ARDUINO_PING_OUTGOING:int = 3;
 		
+		private static const DEBUG_INCOMING:String = "deb";
+		
 		//ping from arduino that to determine if it is connected
 		private static const ARDUINO_PING_INCOMING:String = "p";
 		
@@ -67,6 +69,8 @@ package com.mikechambers.accelerate.serial
 		
 		//string delimter used to seperate values in packet
 		private static const PACKET_DELIMETER:String = "\t";
+		
+		private static const PACKET_EOL_DELIMETER:String = "\n";
 		
 		private var _host:String;
 		private var _port:uint;
@@ -387,12 +391,49 @@ package com.mikechambers.accelerate.serial
 			dispatchEvent( event.clone() );
 		}
 		
+		
+		private var inputBuffer:String = "";
+		
+		/*
+		private var dataLength:uint = 0;
+
+			if(!inputBuffer.length)
+			{
+				var type:uint = socket.readByte();
+				dataLength = socket.readUnsignedInt();
+			}
+			
+			socket.readBytes(inputBuffer, inputBuffer.length, socket.bytesAvailable);
+			
+			if(inputBuffer.length != dataLength)
+			{
+				return;
+			}
+		*/
+		
 		private function onSocketData( event:ProgressEvent ):void
 		{
 			var data:String = _socket.readUTFBytes( _socket.bytesAvailable );
 			
-			trace("onSocketData : " + data);
+			inputBuffer += data;
 			
+			var packet:String;
+			var index:int;
+			while((index = inputBuffer.indexOf(PACKET_EOL_DELIMETER)) > -1)
+			{
+				packet = inputBuffer.substring(0, index);
+				inputBuffer = inputBuffer.substring(index + 1);
+				trace("Packet : --" + packet + "--");
+				handlePacket(packet);
+			}
+			
+			//trace("onSocketData : " + data);
+			
+			
+		}
+		
+		private function handlePacket(data:String):void
+		{
 			//todo: Need to ensure we have received entire packet (ends in \n)
 			//do we need to strip of the trailing \n?
 			var packet:Array = data.split(PACKET_DELIMETER);
@@ -425,7 +466,7 @@ package com.mikechambers.accelerate.serial
 						arduinoConnected = true;
 						out = new AccelerateDataEvent(AccelerateDataEvent.ARDUINO_ATTACH);
 					}
-										
+					
 					startPingTimer();
 					break;
 				}
@@ -495,6 +536,13 @@ package com.mikechambers.accelerate.serial
 					out = new AccelerateDataEvent(AccelerateDataEvent.TOTAL_TIME);
 					out.totalElapsedTime = packet[1];
 					break;
+				}
+				case DEBUG_INCOMING:
+				{
+					trace("Debug : " + packet[1]);
+					
+					//just return, if we want we can broadcast debug event so UI can capture it
+					return;
 				}
 				default :
 				{

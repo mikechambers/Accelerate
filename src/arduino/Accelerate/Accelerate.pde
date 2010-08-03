@@ -13,6 +13,8 @@
 //light sensor value updated : packet type (incoming)
 #define LIGHT_SENSOR_UPDATE "lsu"
 
+#define DEBUG_OUTGOING "deb"
+
 //light sensor trip threshold : packet type (outgoing)
 //specifies percent change in light value to detect trip
 #define TRIP_THRESHHOLD 1
@@ -80,11 +82,12 @@ void loop()
         if(abs(lastLightSensor1Value - lightSensor1Value) >= changeThreshold)
         {
           Serial.print(LIGHT_SENSOR_UPDATE);
-          Serial.print("\t");
+          Serial.print(PACKET_DELIMETER);
           Serial.print(LIGHT_SENSOR_1);
-          Serial.print("\t");
-          Serial.println(lightSensor1Value);
-          Serial.print(0, BYTE);
+          Serial.print(PACKET_DELIMETER);
+          Serial.print(lightSensor1Value);
+          Serial.print(PACKET_EOL);
+          //Serial.print(0, BYTE);
         }
         
         change = (abs(lastLightSensor1Value - lightSensor1Value) / lightSensor1Value) * 100;
@@ -120,30 +123,42 @@ void loop()
 			case TRIP_THRESHHOLD:
 			{
 			  tripThreshold = packetData;
+
+Serial.print(DEBUG_OUTGOING);
+Serial.print(PACKET_DELIMETER);
 Serial.print("Trip Threshold : ");
 Serial.print(tripThreshold, DEC);
-Serial.print(0, BYTE);
+Serial.print(PACKET_EOL);
+//Serial.print(0, BYTE);
 			  break;
 			}
 			case CHANGE_THRESHHOLD:
 			{
 			  changeThreshold = packetData;
+
+Serial.print(DEBUG_OUTGOING);
+Serial.print(PACKET_DELIMETER);
 Serial.print("Change Threshold : ");
 Serial.print(changeThreshold, DEC);
-Serial.print(0, BYTE);
+Serial.print(PACKET_EOL);
+//Serial.print(0, BYTE);
 			  break;
 			}
 			case ARDUINO_PING_INCOMING:
 			{
 			  Serial.print(ARDUINO_PING_OUTGOING);
-			  Serial.print( 0, BYTE );
+                          Serial.print("\n");
+			  //Serial.print( 0, BYTE );
 			  break;
 			}
                         default:
                         {
-                          Serial.print("Packet Type not recognized : ");
+                          Serial.print(DEBUG_OUTGOING);
+                          Serial.print(PACKET_DELIMETER);
+                          Serial.print("Arduino : Packet Type not recognized : ");
                           Serial.print(packetType, DEC);
-                          Serial.print(0, BYTE);
+                          Serial.print(PACKET_EOL);
+                          //Serial.print(0, BYTE);
                         }
 		}
 	}
