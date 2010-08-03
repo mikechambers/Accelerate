@@ -93,6 +93,7 @@ private function onLightSensorUpdate(event:AccelerateDataEvent):void
 		return;
 	}
 	
+	sensorStatusControl.led.ledColor = LEDControl.GREEN;
 	sensorStatusControl.value = String(value);
 }
 

@@ -55,11 +55,12 @@ union u_tag
 
 int packetType = 0;
 int packetData = 0;
-int tripThreshold = 75;
-int changeThreshold = 100;
+int tripThreshold = 75; //percentage change
+int changeThreshold = 100; //absolute change
 
 int lastLightSensor1Value = 0;
 int lightSensor1Value = 0;
+int lastLightSensor1Sent = 0;
 float change = 0;
 
 void setup()
@@ -79,7 +80,7 @@ void loop()
         Serial.print(0, BYTE);
         */
         
-        if(abs(lastLightSensor1Value - lightSensor1Value) >= changeThreshold)
+        if(abs(lastLightSensor1Sent - lightSensor1Value) >= changeThreshold)
         {
           Serial.print(LIGHT_SENSOR_UPDATE);
           Serial.print(PACKET_DELIMETER);
@@ -87,6 +88,8 @@ void loop()
           Serial.print(PACKET_DELIMETER);
           Serial.print(lightSensor1Value);
           Serial.print(PACKET_EOL);
+          
+          lastLightSensor1Sent = lightSensor1Value;
           //Serial.print(0, BYTE);
         }
         

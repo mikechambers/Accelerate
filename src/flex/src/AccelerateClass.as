@@ -34,8 +34,8 @@ private function onCreationComplete():void
 	mainView.arduino = arduino;
 	
 	//rename stuff here?
-	arduino.tripThreshhold = settings.lightSensorChangeThreshold;
-	arduino.changeThreshhold = settings.lightSensorTripThreshold;
+	arduino.tripThreshhold = settings.lightSensorTripThreshold;
+	arduino.changeThreshhold = settings.lightSensorChangeThreshold;
 	
 	//connected to the proxy server (but not the hardware).
 	arduino.addEventListener( Event.CONNECT, onConnect );
