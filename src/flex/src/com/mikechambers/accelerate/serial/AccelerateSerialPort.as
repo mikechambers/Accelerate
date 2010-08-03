@@ -30,6 +30,8 @@ package com.mikechambers.accelerate.serial
 	public class AccelerateSerialPort extends EventDispatcher
 	{
 		
+		public static const LIGHT_SENSOR_MAX:uint = 1024;
+		
 		//light sensor 1 : used in packets
 		public static const LIGHT_SENSOR_1:String = "ls1";
 		

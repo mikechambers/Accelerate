@@ -37,7 +37,7 @@ private function onSaveClick():void
 	e.settings = s;
 	
 	_settings = s;
-	
+	 
 	//bug: no code hint for this
 	dispatchEvent(e);
 	

@@ -1,3 +1,6 @@
+
+#define LIGHT_SENSOR_1_PIN 0
+
 //light sensor 1 : used in packets
 #define LIGHT_SENSOR_1 "ls1"
 
@@ -50,18 +53,51 @@ union u_tag
 
 int packetType = 0;
 int packetData = 0;
-int tripThreshhold = 75;
-int changeThreshhold = 100;
+int tripThreshold = 75;
+int changeThreshold = 100;
+
+int lastLightSensor1Value = 0;
+int lightSensor1Value = 0;
+float change = 0;
 
 void setup()
 {
 	//todo: try larger values
-	Serial.begin(19200);
+	Serial.begin(9600);
 }
 
 void loop()
 {
-        delay(100);
+        lightSensor1Value = analogRead(LIGHT_SENSOR_1_PIN);
+        
+        /*
+        Serial.print(lightSensor1Value, DEC);
+        Serial.print(":");
+        Serial.print(abs(lightSensor1Value - lastLightSensor1Value));
+        Serial.print(0, BYTE);
+        */
+        
+        if(abs(lastLightSensor1Value - lightSensor1Value) >= changeThreshold)
+        {
+          Serial.print(LIGHT_SENSOR_UPDATE);
+          Serial.print("\t");
+          Serial.print(LIGHT_SENSOR_1);
+          Serial.print("\t");
+          Serial.println(lightSensor1Value);
+          Serial.print(0, BYTE);
+        }
+        
+        change = (abs(lastLightSensor1Value - lightSensor1Value) / lightSensor1Value) * 100;
+	lastLightSensor1Value = lightSensor1Value;
+
+        if(change > changeThreshold)
+	{
+	  //_lightSensor_1_triggered = true;
+	  //_startTimeStamp = new Date().getTime();
+	  //interfaceKit.setOutputState(SENSOR_1_OUTPUT_INDEX, true);
+          //trace("HIT");
+	}        
+  
         //incoming packets are currently all
         //3 bytes
         // byte 1 : packet type
@@ -83,26 +119,34 @@ void loop()
 		{
 			case TRIP_THRESHHOLD:
 			{
-				tripThreshhold = packetData;
- Serial.print("Trip Threshhold : ");
- Serial.print(tripThreshhold, DEC);
- Serial.print(0, BYTE);
-				break;
+			  tripThreshold = packetData;
+Serial.print("Trip Threshold : ");
+Serial.print(tripThreshold, DEC);
+Serial.print(0, BYTE);
+			  break;
 			}
 			case CHANGE_THRESHHOLD:
 			{
-				changeThreshhold = packetData;
-  Serial.print("Change Threshhold : ");
-  Serial.print(changeThreshhold, DEC);
- Serial.print(0, BYTE);
-				break;
+			  changeThreshold = packetData;
+Serial.print("Change Threshold : ");
+Serial.print(changeThreshold, DEC);
+Serial.print(0, BYTE);
+			  break;
 			}
 			case ARDUINO_PING_INCOMING:
 			{
-				Serial.print(ARDUINO_PING_OUTGOING);
-				Serial.print( 0, BYTE );
-				break;
+			  Serial.print(ARDUINO_PING_OUTGOING);
+			  Serial.print( 0, BYTE );
+			  break;
 			}
+                        default:
+                        {
+                          Serial.print("Packet Type not recognized : ");
+                          Serial.print(packetType, DEC);
+                          Serial.print(0, BYTE);
+                        }
 		}
 	}
+
+        delay(10);
 }
