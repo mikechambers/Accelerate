@@ -21,7 +21,7 @@
 		<s:Label x="16" y="101" text="Proxy Port :" width="86" textAlign="right" />
 		<s:Label x="16" y="181" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
 		<s:Label x="16" y="231" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
-		<s:HSlider x="193" y="230" minimum="0" maximum="1000" stepSize="50" id="changeThresholdSlider" change="onChange()"/>
+		<s:HSlider x="193" y="230" minimum="1" maximum="1000" stepSize="10" id="changeThresholdSlider" change="onChange()"/>
 		<s:Label x="307" y="225" width="31" text="{changeThresholdSlider.value}"/>
 		<s:TextInput x="106" y="60" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
 		<s:TextInput x="106" y="95" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>

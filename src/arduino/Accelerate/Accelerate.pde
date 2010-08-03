@@ -61,48 +61,55 @@ int changeThreshold = 100; //absolute change
 int lastLightSensor1Value = 0;
 int lightSensor1Value = 0;
 int lastLightSensor1Sent = 0;
+boolean lightSensor1Triggered = false;
+
 float change = 0;
+
+unsigned long startTime = 0;
 
 void setup()
 {
 	//todo: try larger values
-	Serial.begin(9600);
+	Serial.begin(57600);
 }
 
 void loop()
 {
-        lightSensor1Value = analogRead(LIGHT_SENSOR_1_PIN);
-        
-        /*
-        Serial.print(lightSensor1Value, DEC);
-        Serial.print(":");
-        Serial.print(abs(lightSensor1Value - lastLightSensor1Value));
-        Serial.print(0, BYTE);
-        */
-        
-        if(abs(lastLightSensor1Sent - lightSensor1Value) >= changeThreshold)
+        if(!lightSensor1Triggered)
         {
-          Serial.print(LIGHT_SENSOR_UPDATE);
-          Serial.print(PACKET_DELIMETER);
-          Serial.print(LIGHT_SENSOR_1);
-          Serial.print(PACKET_DELIMETER);
-          Serial.print(lightSensor1Value);
-          Serial.print(PACKET_EOL);
+          lightSensor1Value = analogRead(LIGHT_SENSOR_1_PIN);
           
-          lastLightSensor1Sent = lightSensor1Value;
-          //Serial.print(0, BYTE);
+          if(abs(lastLightSensor1Sent - lightSensor1Value) >= changeThreshold)
+          {
+            Serial.print(LIGHT_SENSOR_UPDATE);
+            Serial.print(PACKET_DELIMETER);
+            Serial.print(LIGHT_SENSOR_1);
+            Serial.print(PACKET_DELIMETER);
+            Serial.print(lightSensor1Value);
+            Serial.print(PACKET_EOL);
+            
+            lastLightSensor1Sent = lightSensor1Value;
+            //Serial.print(0, BYTE);
+          }
+          
+          if(lastLightSensor1Value > lightSensor1Value)
+          {
+            change = ((float)(lastLightSensor1Value - lightSensor1Value) / (float)lightSensor1Value) * 100;
+  
+            if(change > tripThreshold)
+            {
+        	 lightSensor1Triggered = true;
+                 startTime = millis();
+                
+                Serial.print(LIGHT_SENSOR_TRIP);
+                Serial.print(PACKET_DELIMETER);
+                Serial.print(LIGHT_SENSOR_1);
+                Serial.print(PACKET_EOL);
+            }
+          }
+          
+          lastLightSensor1Value = lightSensor1Value;
         }
-        
-        change = (abs(lastLightSensor1Value - lightSensor1Value) / lightSensor1Value) * 100;
-	lastLightSensor1Value = lightSensor1Value;
-
-        if(change > changeThreshold)
-	{
-	  //_lightSensor_1_triggered = true;
-	  //_startTimeStamp = new Date().getTime();
-	  //interfaceKit.setOutputState(SENSOR_1_OUTPUT_INDEX, true);
-          //trace("HIT");
-	}        
   
         //incoming packets are currently all
         //3 bytes
@@ -166,5 +173,5 @@ Serial.print(PACKET_EOL);
 		}
 	}
 
-        delay(10);
+        delay(100);
 }
