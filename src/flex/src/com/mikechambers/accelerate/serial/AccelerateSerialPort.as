@@ -360,9 +360,7 @@ package com.mikechambers.accelerate.serial
 			}
 			
 			connectTimer.start();
-			
-
-			
+		
 			dispatchEvent( event.clone() );
 		}
 		
@@ -404,7 +402,7 @@ package com.mikechambers.accelerate.serial
 			{
 				packet = inputBuffer.substring(0, index);
 				inputBuffer = inputBuffer.substring(index + 1);
-				//trace("Packet : --" + packet + "--");
+				trace("Packet : --" + packet + "--");
 				handlePacket(packet);
 			}
 		}

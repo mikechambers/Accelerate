@@ -133,25 +133,27 @@ void loop()
 			case TRIP_THRESHHOLD:
 			{
 			  tripThreshold = packetData;
-
+/*
 Serial.print(DEBUG_OUTGOING);
 Serial.print(PACKET_DELIMETER);
 Serial.print("Trip Threshold : ");
 Serial.print(tripThreshold, DEC);
 Serial.print(PACKET_EOL);
 //Serial.print(0, BYTE);
+*/
 			  break;
 			}
 			case CHANGE_THRESHHOLD:
 			{
 			  changeThreshold = packetData;
-
+/*
 Serial.print(DEBUG_OUTGOING);
 Serial.print(PACKET_DELIMETER);
 Serial.print("Change Threshold : ");
 Serial.print(changeThreshold, DEC);
 Serial.print(PACKET_EOL);
 //Serial.print(0, BYTE);
+*/
 			  break;
 			}
 			case ARDUINO_PING_INCOMING:

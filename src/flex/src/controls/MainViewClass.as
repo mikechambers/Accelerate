@@ -68,8 +68,25 @@ public override function set enabled(value:Boolean):void
 }
 
 private function onLightSensorTrip(event:AccelerateDataEvent):void
-{
+{	
+	var sensor:String = event.sensor;
+	var sensorStatusControl:SensorStatusControl;
 	
+	if(sensor == AccelerateSerialPort.LIGHT_SENSOR_1)
+	{
+		sensorStatusControl = sensor1;
+	}
+	else if(sensor == AccelerateSerialPort.LIGHT_SENSOR_2)
+	{
+		sensorStatusControl = sensor2;
+	}
+	else
+	{
+		trace("onLightSensorTrip : Sensor not recognized : " + sensor);
+		return;
+	}
+	
+	sensorStatusControl.status = SensorStatusControl.TRIPPED;
 }
 
 private function onLightSensorUpdate(event:AccelerateDataEvent):void
@@ -93,8 +110,7 @@ private function onLightSensorUpdate(event:AccelerateDataEvent):void
 		return;
 	}
 	
-	var ledColor:String = (value == 0)?LEDControl.RED:LEDControl.GREEN;
-	sensorStatusControl.led.ledColor = ledColor;
+	sensorStatusControl.status = (value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;
 	sensorStatusControl.value = String(value);
 }
 
@@ -109,7 +125,7 @@ private function onSensorTotalTime(event:AccelerateDataEvent):void
 
 private function onArduinoConnect(event:AccelerateDataEvent):void
 {
-	arduinoDevice.ledColor = LEDControl.GREEN;
+	arduinoDevice.status = SensorStatusControl.CONNECTED;
 	
 	resetButton.enabled = true;
 	
@@ -118,7 +134,7 @@ private function onArduinoConnect(event:AccelerateDataEvent):void
 
 private function onArduinoDetach(event:AccelerateDataEvent):void
 {
-	arduinoDevice.ledColor = LEDControl.RED;
+	arduinoDevice.status = SensorStatusControl.DISCONNECTED;
 }
 
 private function reset():void
@@ -126,8 +142,8 @@ private function reset():void
 	//_lastLightSensor_1_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_1);
 	//_lastLightSensor_2_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_2);
 	
-	sensor1.ledColor = (_lastLightSensor_1_value == 0)?LEDControl.RED:LEDControl.GREEN;
-	sensor2.ledColor = (_lastLightSensor_2_value == 0)?LEDControl.RED:LEDControl.GREEN;	
+	sensor1.status = (_lastLightSensor_1_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;
+	sensor2.status = (_lastLightSensor_2_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;	
 	
 	sensor1.value = String(_lastLightSensor_1_value);
 	sensor2.value = String(_lastLightSensor_2_value);
@@ -140,9 +156,9 @@ private function reset():void
 public function onClose(e:Event):void
 {
 	trace("-------onDisconnect-------");
-	arduinoDevice.ledColor = LEDControl.RED;
-	sensor1.ledColor = LEDControl.RED;
-	sensor2.ledColor = LEDControl.RED;
+	arduinoDevice.status = SensorStatusControl.DISCONNECTED;
+	sensor1.status = SensorStatusControl.DISCONNECTED;
+	sensor2.status = SensorStatusControl.DISCONNECTED;
 	
 	resetButton.enabled = false;
 }
