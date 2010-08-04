@@ -46,20 +46,24 @@ package com.mikechambers.accelerate.serial
 		
 		//light sensor trip threshold : packet type (outgoing)
 		//specifies percent change in light value to detect trip
-		private static const TRIP_THRESHHOLD:uint = 1;
+		private static const TRIP_THRESHHOLD:int = 1;
+
+		
+		//light sensor change threshold : packet type (outgoing)
+		//specifies how much light sensor value has to change before
+		//new value is sent from hardware
+		private static const CHANGE_THRESHHOLD:int = 2;		
 		
 		//ping from arduino that to determine if it is connected
-		private static const ARDUINO_PING_OUTGOING:int = 3;
+		private static const ARDUINO_PING_OUTGOING:int = 3;		
+		
+		private static const RESET_OUTGOING:int = 4;
 		
 		private static const DEBUG_INCOMING:String = "deb";
 		
 		//ping from arduino that to determine if it is connected
 		private static const ARDUINO_PING_INCOMING:String = "p";
 		
-		//light sensor change threshold : packet type (outgoing)
-		//specifies how much light sensor value has to change before
-		//new value is sent from hardware
-		private static const CHANGE_THRESHHOLD:uint = 2;
 		
 		//we figure out elapsed time in hardware so we dont have to worry
 		//about results being skewed by latency
@@ -142,7 +146,15 @@ package com.mikechambers.accelerate.serial
 		
 		public function reset():void
 		{
+			if(_socket.connected)
+			{
+				_socket.writeByte(RESET_OUTGOING);
+				_socket.writeByte(0);
+				_socket.writeByte(0);	
+			}
 			//todo: impliment
+			
+			//send reset code
 		}
 		
 		public function set host(value:String):void

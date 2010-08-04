@@ -16,8 +16,8 @@ import flash.events.SecurityErrorEvent;
 
 private var _settings:Settings;
 
-private var _lastLightSensor_1_value:uint;
-private var _lastLightSensor_2_value:uint;
+//private var _lastLightSensor_1_value:uint;
+//private var _lastLightSensor_2_value:uint;
 
 private var _arduino:AccelerateSerialPort;
 
@@ -116,6 +116,7 @@ private function onLightSensorUpdate(event:AccelerateDataEvent):void
 
 private function onSensorTotalTime(event:AccelerateDataEvent):void
 {
+	trace("onSensorTotalTime : " + event.totalElapsedTime);
 	var timeMs:Number = event.totalElapsedTime;
 	var speedMPH:Number = calculateSpeed(timeMs / 1000);
 	
@@ -127,9 +128,7 @@ private function onArduinoConnect(event:AccelerateDataEvent):void
 {
 	arduinoDevice.status = SensorStatusControl.CONNECTED;
 	
-	resetButton.enabled = true;
-	
-	reset();
+	resetButton.enabled = true;	
 }
 
 private function onArduinoDetach(event:AccelerateDataEvent):void
@@ -139,18 +138,26 @@ private function onArduinoDetach(event:AccelerateDataEvent):void
 
 private function reset():void
 {
+	//make a call to get the sensor value
+	
 	//_lastLightSensor_1_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_1);
 	//_lastLightSensor_2_value = _arduino.getSensorValue(AccelerateSerialPort.LIGHT_SENSOR_2);
 	
-	sensor1.status = (_lastLightSensor_1_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;
-	sensor2.status = (_lastLightSensor_2_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;	
+	//sensor1.status = (_lastLightSensor_1_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;
+	//sensor2.status = (_lastLightSensor_2_value == 0)?SensorStatusControl.DISCONNECTED:SensorStatusControl.ACTIVE;	
 	
-	sensor1.value = String(_lastLightSensor_1_value);
-	sensor2.value = String(_lastLightSensor_2_value);
+	//sensor1.value = String(_lastLightSensor_1_value);
+	//sensor2.value = String(_lastLightSensor_2_value);
 	
-	speedView.reset();
+	sensor1.status = SensorStatusControl.RESETTING;
+	sensor2.status = SensorStatusControl.RESETTING;
 	
-	//interfaceKit.addEventListener(PhidgetDataEvent.SENSOR_CHANGE, onSensorChange);
+	sensor1.value = String(0);
+	sensor1.value = String(0);
+	
+	_arduino.reset();
+	
+	speedView.reset();	
 }
 
 public function onClose(e:Event):void

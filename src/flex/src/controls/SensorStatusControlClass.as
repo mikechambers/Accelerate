@@ -5,6 +5,7 @@ public static const DISCONNECTED:String = "Disconnected";
 public static const CONNECTED:String = "Connected";
 public static const ACTIVE:String = "Active";
 public static const TRIPPED:String = "Tripped";
+public static const RESETTING:String = "Resetting";
 
 private var _label:String;
 private var _value:String;
@@ -40,6 +41,12 @@ public function set status(value:String):void
 		case (TRIPPED):
 		{
 			led.ledColor = LEDControl.GREEN;
+			break;
+		}
+		case (RESETTING):
+		{
+			//todo: maybe make this yellow?
+			//led.ledColor = LEDControl.GREEN;
 			break;
 		}
 		default:

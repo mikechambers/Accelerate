@@ -1,6 +1,8 @@
 
 #define LIGHT_SENSOR_1_PIN 0
 
+#define LIGHT_SENSOR_2_PIN 1
+
 //light sensor 1 : used in packets
 #define LIGHT_SENSOR_1 "ls1"
 
@@ -19,16 +21,17 @@
 //specifies percent change in light value to detect trip
 #define TRIP_THRESHHOLD 1
 
-
-#define ARDUINO_PING_INCOMING 3
-
-#define ARDUINO_PING_OUTGOING "p"
-
-
 //light sensor change threshold : packet type (outgoing)
 //specifies how much light sensor value has to change before
 //new value is sent from hardware
 #define CHANGE_THRESHHOLD 2
+
+#define ARDUINO_PING_INCOMING 3
+
+#define RESET_INCOMING 4
+
+#define ARDUINO_PING_OUTGOING "p"
+
 
 //we figure out elapsed time in hardware so we dont have to worry
 //about results being skewed by latency
@@ -58,25 +61,50 @@ int packetData = 0;
 int tripThreshold = 75; //percentage change
 int changeThreshold = 100; //absolute change
 
-int lastLightSensor1Value = 0;
-int lightSensor1Value = 0;
-int lastLightSensor1Sent = 0;
-boolean lightSensor1Triggered = false;
+int lastLightSensor1Value;
+int lightSensor1Value;
+int lastLightSensor1Sent;
+boolean lightSensor1Triggered;
 
-float change = 0;
+int lastLightSensor2Value;
+int lightSensor2Value;
+int lastLightSensor2Sent;
+boolean lightSensor2Triggered;
+
+float change1 = 0;
+float change2 = 0;
 
 unsigned long startTime = 0;
 
 void setup()
 {
-	//todo: try larger values
+        reset();
+        
 	Serial.begin(57600);
 }
 
-void loop()
+void reset()
 {
-        if(!lightSensor1Triggered)
+  lastLightSensor1Value = 0;
+  lightSensor1Value = 0;
+  lastLightSensor1Sent = 0;
+  lightSensor1Triggered = false;
+  
+  lastLightSensor2Value = 0;
+  lightSensor2Value = 0;
+  lastLightSensor2Sent = 0;
+  lightSensor2Triggered = false;
+  
+  startTime = 0;
+}
+
+void checkLightSensor1()
+{
+        if(lightSensor1Triggered)
         {
+          return;
+        }
+
           lightSensor1Value = analogRead(LIGHT_SENSOR_1_PIN);
           
           if(abs(lastLightSensor1Sent - lightSensor1Value) >= changeThreshold)
@@ -94,9 +122,9 @@ void loop()
           
           if(lastLightSensor1Value > lightSensor1Value)
           {
-            change = ((float)(lastLightSensor1Value - lightSensor1Value) / (float)lightSensor1Value) * 100;
+            change1 = ((float)(lastLightSensor1Value - lightSensor1Value) / (float)lightSensor1Value) * 100;
   
-            if(change > tripThreshold)
+            if(change1 > tripThreshold)
             {
         	 lightSensor1Triggered = true;
                  startTime = millis();
@@ -109,7 +137,57 @@ void loop()
           }
           
           lastLightSensor1Value = lightSensor1Value;
+}
+
+void checkLightSensor2()
+{
+        if(lightSensor2Triggered)
+        {
+          return;
         }
+        
+          lightSensor2Value = analogRead(LIGHT_SENSOR_2_PIN);
+          
+          if(abs(lastLightSensor2Sent - lightSensor2Value) >= changeThreshold)
+          {
+            Serial.print(LIGHT_SENSOR_UPDATE);
+            Serial.print(PACKET_DELIMETER);
+            Serial.print(LIGHT_SENSOR_2);
+            Serial.print(PACKET_DELIMETER);
+            Serial.print(lightSensor2Value);
+            Serial.print(PACKET_EOL);
+            
+            lastLightSensor2Sent = lightSensor2Value;
+            //Serial.print(0, BYTE);
+          }
+          
+          if(lastLightSensor2Value > lightSensor2Value)
+          {
+            change2 = ((float)(lastLightSensor2Value - lightSensor2Value) / (float)lightSensor2Value) * 200;
+  
+            if(change2 > tripThreshold)
+            {
+        	 lightSensor2Triggered = true;
+                
+                Serial.print(LIGHT_SENSOR_TRIP);
+                Serial.print(PACKET_DELIMETER);
+                Serial.print(LIGHT_SENSOR_2);
+                Serial.print(PACKET_EOL);
+                
+                Serial.print(ELAPSED_TIME);
+                Serial.print(PACKET_DELIMETER);
+                Serial.print(millis() - startTime);
+                Serial.print(PACKET_EOL);                
+            }
+          }
+          
+          lastLightSensor2Value = lightSensor2Value;
+}
+
+void loop()
+{
+        checkLightSensor1();
+        checkLightSensor2();
   
         //incoming packets are currently all
         //3 bytes
@@ -156,6 +234,12 @@ Serial.print(PACKET_EOL);
 */
 			  break;
 			}
+                        case RESET_INCOMING:
+                        {
+                          //move to function
+                          reset();
+                          break;
+                        }
 			case ARDUINO_PING_INCOMING:
 			{
 			  Serial.print(ARDUINO_PING_OUTGOING);
