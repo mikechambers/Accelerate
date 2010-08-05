@@ -122,6 +122,9 @@ private function onSensorTotalTime(event:AccelerateDataEvent):void
 	
 	speedView.speed = speedMPH;
 	
+	saveButton.enabled = true;
+	titleInput.enabled = true;
+	notesField.enabled = true;
 }
 
 private function onArduinoConnect(event:AccelerateDataEvent):void
@@ -148,6 +151,10 @@ private function reset():void
 	
 	//sensor1.value = String(_lastLightSensor_1_value);
 	//sensor2.value = String(_lastLightSensor_2_value);
+	
+	saveButton.enabled = false;
+	titleInput.enabled = false;
+	notesField.enabled = false;	
 	
 	sensor1.status = SensorStatusControl.RESETTING;
 	sensor2.status = SensorStatusControl.RESETTING;
