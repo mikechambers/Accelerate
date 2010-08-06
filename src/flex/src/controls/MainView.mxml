@@ -22,29 +22,42 @@
 	
 	<fx:Script source="MainViewClass.as" />
 	
-	<controls:SpeedometerView x="10" y="12" width="380" height="195" id="speedView">
+	<controls:SpeedometerView x="10" y="15" width="509" height="219" id="speedView">
 	</controls:SpeedometerView>
-	<s:Button x="527.5" y="348.5" label="Reset Sensors" width="243" height="50" 
+	<s:Button x="528.5" y="238.5" label="Reset Sensors" width="243" height="50" 
 			  chromeColor="#A30A0A" id="resetButton" 
 			  enabled="false"
 			  click="onResetClick()"/>
-	<s:Button x="47.5" y="348.5" label="Save" width="336" height="50" 
-			  chromeColor="#0BA220" id="saveButton" 
-			  enabled="false"
-/>
-	<s:BorderContainer x="527" y="20" width="244" height="187" cornerRadius="3">
-		<controls:SensorStatusControl x="8.2" y="70.25" id="sensor1" width="222">
+	
+	<s:BorderContainer x="527" y="20" width="244" height="214" cornerRadius="3">
+		<controls:SensorStatusControl x="8.2" y="84.25" id="sensor1" width="222">
 		</controls:SensorStatusControl>
-		<mx:HRule x="10" y="121" width="222"/>
-		<controls:SensorStatusControl x="10.2" y="125.25" id="sensor2" width="222">
+		<mx:HRule x="10" y="140" width="222"/>
+		<controls:SensorStatusControl x="10.2" y="150.25" id="sensor2" width="222">
 		</controls:SensorStatusControl>
 		<controls:SensorStatusControl x="10.2" y="15.5" id="arduinoDevice" width="222">
 		</controls:SensorStatusControl>
-		<mx:HRule x="10" y="66" width="222"/>
+		<mx:HRule x="10" y="73" width="222"/>
 	</s:BorderContainer>
-	<s:Label x="505" y="14" text="Sensor Status" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
+	<s:List x="10" y="242" width="510" height="156" id="speedHistoryList" borderAlpha="0.25">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer height="50">
+					<s:Label id="nameLabel" text="Hello" fontSize="28" height="50" textAlign="left" top="5" left="5" right="5" />
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>	
+	</s:List>
+	
+	<!--
+	<s:Button x="47.5" y="348.5" label="Save" width="336" height="50" 
+			  chromeColor="#0BA220" id="saveButton" 
+			  enabled="false"
+			  />	
+	<s:Label x="535" y="14" text="Sensor Status" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
 	<s:TextArea x="47" y="246" height="95" width="337" id="notesField" enabled="false"/>
 	<s:TextInput x="47" y="215" width="338" id="titleInput" enabled="false"/>
 	<s:Label x="14" y="225" text="Title"/>
 	<s:Label x="7" y="245" text="Notes"/>
+	-->
 </s:Group>

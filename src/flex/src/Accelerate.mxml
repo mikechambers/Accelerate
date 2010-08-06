@@ -42,11 +42,10 @@
 					   x.speedometerState="808" y.speedometerState="10" height="408" width="780" x.settingsState="1608" y.settingsState="10">
 	</controls:DataView>
 	
-	<s:ButtonBar id="navButtonBar" height="40" 
+	<s:ButtonBar id="navButtonBar" 
 				 y.dataState="425.75" x.dataState="10.4" width.dataState="780" 
-				 width.speedometerState="780" x.speedometerState="10.4" 
 				 bottom="10" left="10" right="10"
-				 change="onNavChange()" width.settingsState="780" x.settingsState="10.4"> 
+				 change="onNavChange()" width.settingsState="780" x.settingsState="10.4" height.settingsState="40" height.dataState="40" left.speedometerState="10" bottom.speedometerState="10" right.speedometerState="10" height.speedometerState="40"> 
 		<s:layout.speedometerState>
 			<s:ButtonBarHorizontalLayout/>
 		</s:layout.speedometerState>
