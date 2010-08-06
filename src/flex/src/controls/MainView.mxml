@@ -39,14 +39,8 @@
 		</controls:SensorStatusControl>
 		<mx:HRule x="10" y="73" width="222"/>
 	</s:BorderContainer>
-	<s:List x="10" y="242" width="510" height="156" id="speedHistoryList" borderAlpha="0.25">
-		<s:itemRenderer>
-			<fx:Component>
-				<s:ItemRenderer height="50">
-					<s:Label id="nameLabel" text="Hello" fontSize="28" height="50" textAlign="left" top="5" left="5" right="5" />
-				</s:ItemRenderer>
-			</fx:Component>
-		</s:itemRenderer>	
+	<s:List x="10" y="242" width="510" height="156" id="sessionResultsList" borderAlpha="0.25"
+			itemRenderer="ResultItemRenderer">
 	</s:List>
 	
 	<!--

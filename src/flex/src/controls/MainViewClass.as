@@ -1,4 +1,5 @@
 
+import com.mikechambers.accelerate.data.Result;
 import com.mikechambers.accelerate.events.AccelerateDataEvent;
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
@@ -12,6 +13,8 @@ import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.events.SecurityErrorEvent;
 
+import mx.collections.ArrayCollection;
+
 
 
 private var _settings:Settings;
@@ -20,6 +23,8 @@ private var _settings:Settings;
 //private var _lastLightSensor_2_value:uint;
 
 private var _arduino:AccelerateSerialPort;
+
+private var sessionResults:ArrayCollection;
 
 private function onCreationComplete():void
 {
@@ -119,6 +124,21 @@ private function onSensorTotalTime(event:AccelerateDataEvent):void
 	trace("onSensorTotalTime : " + event.totalElapsedTime);
 	var timeMs:Number = event.totalElapsedTime;
 	var speedMPH:Number = calculateSpeed(timeMs / 1000);
+	
+	
+	var r:Result = new Result();
+	r.date = new Date();
+	r.speed = speedMPH;
+	r.rawTime = event.totalElapsedTime;
+	r.distance = _settings.lightSensorDistance;
+	
+	if(!sessionResults)
+	{
+		sessionResults = new ArrayCollection();
+		sessionResultsList.dataProvider = sessionResults;
+	}
+	
+	sessionResults.addItem(r);
 	
 	speedView.speed = speedMPH;
 	
