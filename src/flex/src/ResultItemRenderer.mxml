@@ -18,6 +18,6 @@
 		]]>
 	</fx:Script>
 	
-	<s:Label right="0" left="0" top="0" bottom="0" text="HI" fontSize="28" id="labelField" verticalAlign="middle"/>
+	<s:Label right="0" left="0" top="0" bottom="0" fontSize="28" id="labelField" verticalAlign="middle"/>
 	
 </s:ItemRenderer>
