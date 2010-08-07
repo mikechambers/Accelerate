@@ -161,7 +161,11 @@ void checkLightSensor2()
             //Serial.print(0, BYTE);
           }
           
-          if(lastLightSensor2Value > lightSensor2Value)
+		//only check lightsensor 2 triggering if light
+		//sensor one has already triggered
+          if(
+			lightSensor1Triggered &&
+			lastLightSensor2Value > lightSensor2Value)
           {
             change2 = ((float)(lastLightSensor2Value - lightSensor2Value) / (float)lightSensor2Value) * 200;
   
@@ -261,3 +265,4 @@ Serial.print(PACKET_EOL);
 
         delay(100);
 }
+

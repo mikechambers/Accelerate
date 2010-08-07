@@ -4,6 +4,20 @@
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				autoDrawBackground="true" height="50" width="487">
 	
-	<s:Label right="0" left="0" top="0" bottom="0" text="{data.date} : {data.speed}" fontSize="28"/>
+	<fx:Script>
+		<![CDATA[
+			import com.mikechambers.accelerate.data.Result;
+			
+			override public function set data(data:Object):void
+			{
+				var r:Result = Result(data);
+				var d:Date = r.date;
+				labelField.text = d.hours + ":" + d.minutes + " " + d.day + "/" + d.month + "/" + 
+					d.fullYear + " :: " + Math.round(r.speed *100)/100 + " MPH";
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label right="0" left="0" top="0" bottom="0" fontSize="28" id="labelField" verticalAlign="middle"/>
 	
 </s:ItemRenderer>
