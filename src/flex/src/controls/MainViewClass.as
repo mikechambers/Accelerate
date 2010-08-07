@@ -12,8 +12,10 @@ import controls.SensorStatusControl;
 import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.events.SecurityErrorEvent;
+import flash.media.Sound;
 
 import mx.collections.ArrayCollection;
+import mx.core.SoundAsset;
 
 
 
@@ -26,11 +28,23 @@ private var _arduino:AccelerateSerialPort;
 
 private var sessionResults:ArrayCollection;
 
+[Embed('assets/sounds/trigger_1.mp3')]
+private var trigger_2:Class;
+
+[Embed('assets/sounds/trigger_2.mp3')]
+private var trigger_1:Class;
+
+private var trigger2:Sound;
+private var trigger1:Sound;
+
 private function onCreationComplete():void
 {
 	sensor1.label = "Light Sensor 1";
 	sensor2.label = "Light Sensor 2";
 	arduinoDevice.label = "Arduino";
+	
+	trigger1 = new trigger_1() as Sound;
+	trigger2 = new trigger_2() as Sound;
 }
 
 public function set settings(value:Settings):void
@@ -79,10 +93,12 @@ private function onLightSensorTrip(event:AccelerateDataEvent):void
 	
 	if(sensor == AccelerateSerialPort.LIGHT_SENSOR_1)
 	{
+		trigger1.play();
 		sensorStatusControl = sensor1;
 	}
 	else if(sensor == AccelerateSerialPort.LIGHT_SENSOR_2)
 	{
+		trigger2.play();
 		sensorStatusControl = sensor2;
 	}
 	else
