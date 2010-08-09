@@ -98,6 +98,8 @@ void reset()
   startTime = 0;
 }
 
+int counter = 0;
+
 void checkLightSensor1()
 {
         if(lightSensor1Triggered)
@@ -146,7 +148,13 @@ void checkLightSensor2()
           return;
         }
         
+        
+        
           lightSensor2Value = analogRead(LIGHT_SENSOR_2_PIN);
+       
+//Serial.println("-");
+//Serial.println(lightSensor2Value, DEC);
+//Serial.println(counter, DEC);       
           
           if(abs(lastLightSensor2Sent - lightSensor2Value) >= changeThreshold)
           {
@@ -187,6 +195,8 @@ void checkLightSensor2()
           
           lastLightSensor2Value = lightSensor2Value;
 }
+
+
 
 void loop()
 {
@@ -262,7 +272,8 @@ Serial.print(PACKET_EOL);
                         }
 		}
 	}
-
-        delay(100);
+        
+        //counter++;
+        delay(1);
 }
 
