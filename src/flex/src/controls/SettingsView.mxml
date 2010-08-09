@@ -14,27 +14,27 @@
 		[Event(name="onUpdated", type="com.mikechambers.accelerate.events.SettingsEvent")] 
 	</fx:Metadata> 	
 	
-	<s:BorderContainer x="25" y="24" width="745" height="360" cornerRadius="3">
+	<s:BorderContainer x="10" y="24" width="780" height="360" cornerRadius="3" backgroundAlpha="0.5">
 		<s:Label x="10" y="-8" text="Settings" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
 		
-		<s:Label x="10" y="22" text="Proxy Address :" width="88" textAlign="right"/>
-		<s:Label x="10" y="59" text="Proxy Port :" width="86" textAlign="right" />
-		<s:Label x="411" y="20" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
-		<s:Label x="411" y="70" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
-		<s:HSlider x="588" y="69" minimum="1" maximum="1000" stepSize="10" id="changeThresholdSlider" change="onChange()"/>
-		<s:Label x="702" y="64" width="31" text="{changeThresholdSlider.value}"/>
-		<s:TextInput x="100" y="18" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
-		<s:TextInput x="100" y="53" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:HSlider x="588" y="19" minimum="0" maximum="100" stepSize="1" id="tripThresholdSlider" change="onChange()"/>
-		<s:Label x="702" y="14" width="31" text="{tripThresholdSlider.value}"/>
-		<s:Button x="414" y="294" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
+		<s:Label x="10" y="24" text="Proxy Address :" width="88" textAlign="right"/>
+		<s:Label x="10" y="61" text="Proxy Port :" width="86" textAlign="right" />
+		<s:Label x="446" y="26" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
+		<s:Label x="446" y="76" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
+		<s:HSlider x="623" y="75" minimum="1" maximum="1000" stepSize="10" id="changeThresholdSlider" change="onChange()"/>
+		<s:Label x="737" y="70" width="31" text="{changeThresholdSlider.value}"/>
+		<s:TextInput x="100" y="20" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
+		<s:TextInput x="100" y="55" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
+		<s:HSlider x="623" y="25" minimum="0" maximum="100" stepSize="1" id="tripThresholdSlider" change="onChange()"/>
+		<s:Label x="737" y="20" width="31" text="{tripThresholdSlider.value}"/>
+		<s:Button x="447" y="297" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
 				  click="onSaveClick()" id="saveButton"/>
-		<s:Button x="584" y="294" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
+		<s:Button x="612" y="297" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
 				  click="onCancelClick()" id="cancelButton"/>
-		<s:Label x="456" y="121" text="Light Sensor Distance :"/>
-		<s:TextInput x="594" y="115" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
+		<s:Label x="491" y="127" text="Light Sensor Distance :"/>
+		<s:TextInput x="629" y="121" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
 					 change="onChange()" restrict=".0-9"/>
-		<s:Label x="657" y="122" text="Inches"/>
+		<s:Label x="692" y="128" text="Inches"/>
 		
 	</s:BorderContainer>
 </s:Group>

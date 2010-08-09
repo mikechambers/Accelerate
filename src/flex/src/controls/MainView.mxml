@@ -22,9 +22,9 @@
 	
 	<fx:Script source="MainViewClass.as" />
 	
-		<controls:SpeedometerView x="0" y="217" width="413" height="219" id="speedView">
+		<controls:SpeedometerView x="0" y="206" width="413" height="219" id="speedView">
 		</controls:SpeedometerView>
-		<s:List x="431" y="193" width="359" height="219" id="sessionResultsList" borderAlpha="0.25"
+		<s:List x="431" y="166" width="359" height="219" id="sessionResultsList" borderAlpha="0.25"
 				itemRenderer="ResultItemRenderer" contentBackgroundAlpha="0.25" borderVisible="true">
 		</s:List>
 			

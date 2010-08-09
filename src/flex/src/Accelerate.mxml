@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   width="800" height="480" xmlns:controls="controls.*" 
 					   currentState="speedometerState"
-					   showStatusBar="false"
 					   usePreloader="false"
 					   creationComplete="onCreationComplete()"
 					   initialize="onInitialize()">
@@ -72,4 +71,4 @@
 						   onUpdated="onSettingsUpdated(event)">
 	</controls:SettingsView>
 	
-</s:WindowedApplication>
+</s:Application>
