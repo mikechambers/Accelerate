@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="408" width="780"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="480" width="800"
 		 xmlns:controls="controls.*"
 		 creationComplete="onCreationComplete()">
 	<s:layout>
@@ -22,26 +22,24 @@
 	
 	<fx:Script source="MainViewClass.as" />
 	
-	<controls:SpeedometerView x="10" y="15" width="509" height="219" id="speedView">
-	</controls:SpeedometerView>
-	<s:Button x="528.5" y="238.5" label="Reset Sensors" width="243" height="50" 
+		<controls:SpeedometerView x="0" y="217" width="413" height="219" id="speedView">
+		</controls:SpeedometerView>
+		<s:List x="431" y="193" width="359" height="219" id="sessionResultsList" borderAlpha="0.25"
+				itemRenderer="ResultItemRenderer" contentBackgroundAlpha="0.25" borderVisible="true">
+		</s:List>
+			
+	<s:Button label="Reset Sensors" width="199" height="43" 
 			  chromeColor="#A30A0A" id="resetButton" 
 			  enabled="false"
-			  click="onResetClick()"/>
-	
-	<s:BorderContainer x="527" y="20" width="244" height="214" cornerRadius="3">
-		<controls:SensorStatusControl x="8.2" y="84.25" id="sensor1" width="222">
-		</controls:SensorStatusControl>
-		<mx:HRule x="10" y="140" width="222"/>
-		<controls:SensorStatusControl x="10.2" y="150.25" id="sensor2" width="222">
-		</controls:SensorStatusControl>
-		<controls:SensorStatusControl x="10.2" y="15.5" id="arduinoDevice" width="222">
-		</controls:SensorStatusControl>
-		<mx:HRule x="10" y="73" width="222"/>
-	</s:BorderContainer>
-	<s:List x="10" y="242" width="510" height="156" id="sessionResultsList" borderAlpha="0.25"
-			itemRenderer="ResultItemRenderer">
-	</s:List>
+			  click="onResetClick()" right="10" top="11"/>
+	<controls:SensorStatusControl x="16.2" y="11.5" id="arduinoDevice" width="222">
+	</controls:SensorStatusControl>
+	<controls:SensorStatusControl x="146" y="11.25" id="sensor1" width="222">
+	</controls:SensorStatusControl>
+	<controls:SensorStatusControl x="361.2" y="10.25" id="sensor2" width="222">
+	</controls:SensorStatusControl>
+	<mx:VRule x="128" y="12" height="40"/>
+	<mx:VRule x="348" y="12" height="40"/>
 	
 	<!--
 	<s:Button x="47.5" y="348.5" label="Save" width="336" height="50" 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="408" width="780" contentBackgroundColor="#19BB1D">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="480" width="800" contentBackgroundColor="#19BB1D">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
@@ -25,7 +25,7 @@
 		<s:Label x="702" y="64" width="31" text="{changeThresholdSlider.value}"/>
 		<s:TextInput x="100" y="18" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
 		<s:TextInput x="100" y="53" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:HSlider x="588" y="19" minimum="0" maximum="100" stepSize="5" id="tripThresholdSlider" change="onChange()"/>
+		<s:HSlider x="588" y="19" minimum="0" maximum="100" stepSize="1" id="tripThresholdSlider" change="onChange()"/>
 		<s:Label x="702" y="14" width="31" text="{tripThresholdSlider.value}"/>
 		<s:Button x="414" y="294" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
 				  click="onSaveClick()" id="saveButton"/>

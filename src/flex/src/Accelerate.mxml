@@ -29,17 +29,26 @@
 	
 	<fx:Script source="AccelerateClass.as" />
 	
-	<controls:MainView x="0" y="10" x.dataState="-787.2"
+	<s:BorderContainer 
+		backgroundImage="@Embed('assets/images/background_gradient.png')"
+		backgroundImageFillMode="scale"
+		borderWeight="0"
+		height="300" width="800"
+		borderVisible="false"
+		horizontalCenter="0" verticalCenter="89"></s:BorderContainer>	
+	
+	<controls:MainView x="0" y="0" x.dataState="-802.2"
 					   id="mainView"
 					   onDataViewRequest="onDataViewRequest(event)" 
-					   x.speedometerState="10" 
-					   height="408" width="780" y.dataState="10.5" x.settingsState="810" y.settingsState="10">
+					   x.speedometerState="0" 
+					   height="480" width="800" y.dataState="0" x.settingsState="810" y.settingsState="0">
 	</controls:MainView>
-	<controls:DataView x="560" y="10" x.dataState="10"
+	<controls:DataView x="560" y="0" x.dataState="0"
 					   id="dataView"
 					   
 					   onMainViewRequest="onMainViewRequest(event)" 
-					   x.speedometerState="808" y.speedometerState="10" height="408" width="780" x.settingsState="1608" y.settingsState="10">
+					   x.speedometerState="800" y.speedometerState="0" height="480" width="800" 
+					   x.settingsState="1608" y.settingsState="10">
 	</controls:DataView>
 	
 	<s:ButtonBar id="navButtonBar" 
@@ -58,8 +67,8 @@
 			<fx:String>Data</fx:String> 
 		</mx:ArrayCollection> 
 	</s:ButtonBar> 	
-	<controls:SettingsView x="-790" y="10" id="settingsView" x.settingsState="10"
-						   x.dataState="-1641.7" y.dataState="18.35"
+	<controls:SettingsView x="-800" y="0" id="settingsView" x.settingsState="0"
+						   x.dataState="-1641.7" y.dataState="0"
 						   onUpdated="onSettingsUpdated(event)">
 	</controls:SettingsView>
 	

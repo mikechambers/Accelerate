@@ -13,9 +13,9 @@
 	
 	<fx:Script source="SensorStatusControlClass.as" />
 	
-	<s:Label text="Sensor Label" left="16" right="73" top="5.1" id="labelField"  fontWeight="bold"/>
+	<s:Label text="Sensor Label" left="16" right="116" top="5.1" id="labelField"  fontWeight="bold"/>
 	<controls:LEDControl left="2.9" top="5.35" id="led">
 	</controls:LEDControl>
-	<s:Label width="86" top="5" right="10" id="valueField" textAlign="right"/>
-	<s:Label x="16" y="21" id="statusField" width="161"/>
+	<s:Label width="97" top="-3" right="17" id="valueField" textAlign="left" height="48" fontSize="36" verticalAlign="middle" fontWeight="normal"/>
+	<s:Label x="16" y="21" id="statusField" width="150"/>
 </s:Group>
