@@ -2,12 +2,16 @@ import com.mikechambers.accelerate.events.AccelerateDataEvent;
 import com.mikechambers.accelerate.events.AccelerateEvent;
 import com.mikechambers.accelerate.events.SettingsEvent;
 import com.mikechambers.accelerate.events.ViewEvent;
+import com.mikechambers.accelerate.logging.TextAreaTarget;
 import com.mikechambers.accelerate.serial.AccelerateSerialPort;
 import com.mikechambers.accelerate.settings.Settings;
 
 import flash.events.Event;
 import flash.utils.Timer;
 
+import mx.logging.Log;
+import mx.logging.LogEventLevel;
+import mx.logging.targets.TraceTarget;
 import mx.utils.NameUtil;
 
 public static const TRANSITION_SPEED:int = 500;
@@ -37,39 +41,24 @@ private function onCreationComplete():void
 	arduino.tripThreshhold = settings.lightSensorTripThreshold;
 	arduino.changeThreshhold = settings.lightSensorChangeThreshold;
 	
-	//connected to the proxy server (but not the hardware).
-	arduino.addEventListener( Event.CONNECT, onConnect );
-	arduino.addEventListener( IOErrorEvent.IO_ERROR, onIOErrorEvent );
-	arduino.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
-	
 	arduino.connect();
 }
 
+private var traceTarget:TraceTarget;
 private function onInitialize():void
 {
+	traceTarget = new TraceTarget();
+	
+	traceTarget.includeDate = false;
+	traceTarget.includeTime = false;
+	traceTarget.includeLevel = true;
+	traceTarget.level = LogEventLevel.ALL;
+	
+	Log.addTarget(traceTarget);
+	
 	loadSettings();
 	mainView.settings = settings;
 	settingsView.settings = settings;
-}
-
-private function onIOErrorEvent(event:IOErrorEvent):void
-{
-	trace("IOErrorEvent : " + event.text);	
-}
-
-private function onSecurityError(event:SecurityErrorEvent):void
-{
-	trace("SecurityErrorEvent : " + event.text );	
-}
-
-private function onConnect(e:Event):void
-{
-	trace("-------onConnect-------");
-}
-
-private function onArduinoConnect(event:AccelerateDataEvent):void
-{
-	trace("arduino connect");
 }
 
 private function onSettingsUpdated(e:SettingsEvent):void

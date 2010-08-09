@@ -17,7 +17,7 @@ import flash.media.Sound;
 import mx.collections.ArrayCollection;
 import mx.core.SoundAsset;
 
-
+import mx.logging.Log;
 
 private var _settings:Settings;
 
@@ -103,7 +103,7 @@ private function onLightSensorTrip(event:AccelerateDataEvent):void
 	}
 	else
 	{
-		trace("onLightSensorTrip : Sensor not recognized : " + sensor);
+		Log.getLogger("LOG").error("onLightSensorTrip : Sensor not recognized : " + sensor);
 		return;
 	}
 	
@@ -127,7 +127,7 @@ private function onLightSensorUpdate(event:AccelerateDataEvent):void
 	}
 	else
 	{
-		trace("onLightSensorUpdate : Sensor not recognized : " + sensor);
+		Log.getLogger("LOG").error("onLightSensorUpdate : Sensor not recognized : " + sensor);
 		return;
 	}
 	
@@ -137,7 +137,7 @@ private function onLightSensorUpdate(event:AccelerateDataEvent):void
 
 private function onSensorTotalTime(event:AccelerateDataEvent):void
 {
-	trace("onSensorTotalTime : " + event.totalElapsedTime);
+	Log.getLogger("LOG").info("onSensorTotalTime : " + event.totalElapsedTime);
 	var timeMs:Number = event.totalElapsedTime;
 	var speedMPH:Number = calculateSpeed(timeMs / 1000);
 	
@@ -205,7 +205,7 @@ private function reset():void
 
 public function onClose(e:Event):void
 {
-	trace("-------onDisconnect-------");
+	Log.getLogger("LOG").info("-------onDisconnect-------");
 	arduinoDevice.status = SensorStatusControl.DISCONNECTED;
 	sensor1.status = SensorStatusControl.DISCONNECTED;
 	sensor2.status = SensorStatusControl.DISCONNECTED;

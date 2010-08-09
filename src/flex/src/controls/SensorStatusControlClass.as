@@ -11,6 +11,8 @@ private var _label:String;
 private var _value:String;
 private var _status:String;
 
+import mx.logging.Log;
+
 private function onCreationComplete():void
 {
 	if(!_status)
@@ -51,7 +53,7 @@ public function set status(value:String):void
 		}
 		default:
 		{
-			trace("SensorStatusControl.status : status not recognized : " + value);
+			Log.getLogger("LOG").error("SensorStatusControl.status : status not recognized : " + value);
 			return;
 		}
 	}

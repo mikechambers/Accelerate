@@ -27,6 +27,8 @@ package com.mikechambers.accelerate.serial
 	import flash.utils.Endian;
 	import flash.utils.Timer;
 	
+	import mx.logging.Log;
+	
 	public class AccelerateSerialPort extends EventDispatcher
 	{
 		
@@ -287,7 +289,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onClose( event:Event ):void
 		{
-			trace( "onClose" );
+			Log.getLogger("LOG").info( "onClose" );
 			stopTimers();
 			startReconnectTimer();
 			arduinoConnected = false;
@@ -326,7 +328,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onReconnectTimer(event:TimerEvent):void
 		{
-			trace("onReconnectTimer");
+			Log.getLogger("LOG").info("onReconnectTimer");
 			stopReconnectTimer();
 			connect();
 		}
@@ -352,7 +354,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onConnectTimer(event:TimerEvent):void
 		{
-			trace("onConnectDelayTimer");
+			Log.getLogger("LOG").info("onConnectDelayTimer");
 			connectTimer.stop();
 			
 			sendPing();
@@ -360,7 +362,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onConnect( event:Event ):void
 		{
-			trace( "onConnect" );
+			Log.getLogger("LOG").info( "onConnect" );
 			
 			if(reconnectTimer)
 			{
@@ -392,7 +394,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onIOErrorEvent( event:IOErrorEvent ):void
 		{
-			trace( "onIOErrorEvent" );
+			Log.getLogger("LOG").error( "onIOErrorEvent" );
 			
 			startReconnectTimer();
 			dispatchEvent( event.clone() );
@@ -400,7 +402,7 @@ package com.mikechambers.accelerate.serial
 		
 		private function onSecurityError( event:SecurityErrorEvent ):void
 		{
-			trace( "onSecurityError" );
+			Log.getLogger("LOG").error( "onSecurityError" );
 			dispatchEvent( event.clone() );
 		}
 		
@@ -416,7 +418,7 @@ package com.mikechambers.accelerate.serial
 			{
 				packet = inputBuffer.substring(0, index);
 				inputBuffer = inputBuffer.substring(index + 1);
-				trace("Packet : --" + packet + "--");
+				//Log.getLogger("LOG").info("Packet : --" + packet + "--");
 				handlePacket(packet);
 			}
 		}
@@ -489,7 +491,7 @@ package com.mikechambers.accelerate.serial
 						}
 						default:
 						{
-							trace("AccelerateSerialPort.onSocketData : Unrecognized sensor : " + packet[1] + " : " + data);
+							Log.getLogger("LOG").error("AccelerateSerialPort.onSocketData : Unrecognized sensor : " + packet[1] + " : " + data);
 						}
 					}
 					
@@ -519,7 +521,7 @@ package com.mikechambers.accelerate.serial
 						}
 						default:
 						{
-							trace("AccelerateSerialPort.onSocketData : Unrecognized sensor : " + packet[1] + " : " + data);
+							Log.getLogger("LOG").error("AccelerateSerialPort.onSocketData : Unrecognized sensor : " + packet[1] + " : " + data);
 						}
 					}
 					
@@ -537,14 +539,14 @@ package com.mikechambers.accelerate.serial
 				}
 				case DEBUG_INCOMING:
 				{
-					trace("Debug : " + packet[1]);
+					Log.getLogger("LOG").debug("Debug : " + packet[1]);
 					
 					//just return, if we want we can broadcast debug event so UI can capture it
 					return;
 				}
 				default :
 				{
-					trace("AccelerateSerialPort.onSocketData : Unrecognized packet : " + data);
+					Log.getLogger("LOG").error("AccelerateSerialPort.onSocketData : Unrecognized packet : " + data);
 					
 					//dont recognize packet. return
 					return;

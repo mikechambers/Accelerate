@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="480" width="800" contentBackgroundColor="#19BB1D">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="480" width="800" 
+		 creationComplete="onComplete()"
+		 contentBackgroundColor="#19BB1D">
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
@@ -35,6 +37,8 @@
 		<s:TextInput x="629" y="121" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
 					 change="onChange()" restrict=".0-9"/>
 		<s:Label x="692" y="128" text="Inches"/>
+		<s:TextArea x="10" y="197" contentBackgroundColor="#FFFFFF" width="357" id="logTextArea" editable="false"/>
+		<s:CheckBox x="285" y="176" label="Enable Log" id="enableLogCB" click="onChange()"/>
 		
 	</s:BorderContainer>
 </s:Group>
