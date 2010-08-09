@@ -13,6 +13,28 @@
 		<s:State name="settingsState"/>
 	</s:states>
 	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace controls "controls.*";
+		
+		@font-face {
+			src: url("/Users/mesh/Library/Fonts/Crysta.ttf");
+			fontFamily: Crystal;
+			fontStyle: italic;
+			fontWeight: normal;
+			advancedAntiAliasing: true;
+			embedAsCFF:true;
+			unicodeRange:
+				/*U+0041-005A,  Upper-Case [A..Z] */
+				/*U+0061-007A,  Lower-Case a-z */
+				U+004D,U+0050,U+0048, /* MPH */
+				U+0030-0034, /* Numbers [0..4] */
+				U+002E-002E; /* Period [.] */
+		}		
+		
+	</fx:Style>
+	
 	<s:transitions>
 		<!--MAIN to DATA -->
 		<s:Transition toState="*" fromState="*">
@@ -53,7 +75,9 @@
 	<s:ButtonBar id="navButtonBar" 
 				 y.dataState="425.75" x.dataState="10.4" width.dataState="780" 
 				 bottom="10" left="10" right="10"
-				 change="onNavChange()" width.settingsState="780" x.settingsState="10.4" height.settingsState="40" height.dataState="40" left.speedometerState="10" bottom.speedometerState="10" right.speedometerState="10" height.speedometerState="40"> 
+				 change="onNavChange()" width.settingsState="780" x.settingsState="10.4" 
+				 height.settingsState="40" height.dataState="40" left.speedometerState="10" 
+				 bottom.speedometerState="10" right.speedometerState="10" height.speedometerState="40" fontSize="18"> 
 		<s:layout.speedometerState>
 			<s:ButtonBarHorizontalLayout/>
 		</s:layout.speedometerState>

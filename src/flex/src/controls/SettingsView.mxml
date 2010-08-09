@@ -28,9 +28,9 @@
 		<s:HSlider x="623" y="25" minimum="0" maximum="100" stepSize="1" id="tripThresholdSlider" change="onChange()"/>
 		<s:Label x="737" y="20" width="31" text="{tripThresholdSlider.value}"/>
 		<s:Button x="447" y="297" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
-				  click="onSaveClick()" id="saveButton"/>
+				  click="onSaveClick()" id="saveButton" fontSize="18"/>
 		<s:Button x="612" y="297" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
-				  click="onCancelClick()" id="cancelButton"/>
+				  click="onCancelClick()" id="cancelButton" fontSize="18"/>
 		<s:Label x="491" y="127" text="Light Sensor Distance :"/>
 		<s:TextInput x="629" y="121" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
 					 change="onChange()" restrict=".0-9"/>

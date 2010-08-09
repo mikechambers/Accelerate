@@ -13,7 +13,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Label text="00.00" width="399" height="210" verticalAlign="middle" textAlign="center" 
-			 fontSize="160" id="speedLabel" fontFamily="Crystal Italic" color="#2E4893" x="6" y="10"/>
-	<s:Label x="369" y="150" text="MPH" width="53" height="15" fontFamily="Crystal Italic" fontSize="20"
+			 fontSize="160" id="speedLabel" fontFamily="Crystal" fontStyle="italic" color="#2E4893" x="6" y="10"/>
+	<s:Label x="369" y="150" text="MPH" width="53" height="15" fontFamily="Crystal" fontStyle="italic" fontSize="20"
 			 color="#2E4893"/>
 </s:Group>

@@ -31,7 +31,7 @@
 	<s:Button label="Reset Sensors" width="199" height="43" 
 			  chromeColor="#A30A0A" id="resetButton" 
 			  enabled="false"
-			  click="onResetClick()" right="10" top="11"/>
+			  click="onResetClick()" right="10" top="11" fontWeight="normal" fontSize="18"/>
 	<controls:SensorStatusControl x="16.2" y="11.5" id="arduinoDevice" width="222">
 	</controls:SensorStatusControl>
 	<controls:SensorStatusControl x="146" y="11.25" id="sensor1" width="222">
