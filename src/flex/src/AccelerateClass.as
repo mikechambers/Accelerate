@@ -7,6 +7,8 @@ import com.mikechambers.accelerate.serial.AccelerateSerialPort;
 import com.mikechambers.accelerate.settings.Settings;
 
 import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.events.SecurityErrorEvent;
 import flash.utils.Timer;
 
 import mx.logging.Log;
@@ -28,6 +30,7 @@ private static const SETTINGS_FILE_NAME:String = "accelerate.settings";
 
 public var settings:Settings;
 private var arduino:AccelerateSerialPort;
+private var traceTarget:TraceTarget;
 
 private function onCreationComplete():void
 {
@@ -41,10 +44,23 @@ private function onCreationComplete():void
 	arduino.tripThreshhold = settings.lightSensorTripThreshold;
 	arduino.changeThreshhold = settings.lightSensorChangeThreshold;
 	
+	arduino.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+	arduino.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+	
 	arduino.connect();
 }
 
-private var traceTarget:TraceTarget;
+private function onIOError(event:IOErrorEvent):void
+{
+	Log.getLogger("LOG").error("IOErrorEvent : " + event.text);
+}
+
+private function onSecurityError(event:SecurityErrorEvent):void
+{
+	Log.getLogger("LOG").error("SecurityErrorEvent : " + event.text);
+}
+
+
 private function onInitialize():void
 {
 	traceTarget = new TraceTarget();
@@ -92,6 +108,7 @@ private function onSettingsUpdated(e:SettingsEvent):void
 
 private function saveSettings():void
 {
+	Log.getLogger("LOG").info("Saving Settings : " + settings.serverAddress);
 	var f:File = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME);
 	var fs:FileStream = new FileStream();
 	fs.open(f, FileMode.WRITE);

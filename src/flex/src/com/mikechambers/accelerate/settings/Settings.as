@@ -4,8 +4,8 @@ package com.mikechambers.accelerate.settings
 	public class Settings
 	{
 		
-		public var serverAddress:String = "127.0.0.1";
-		public var serverPort:uint = 3551;
+		public var serverAddress:String = "10.0.2.1";
+		public var serverPort:uint = 80;
 		public var lightSensorTripThreshold:uint = 75;
 		public var lightSensorChangeThreshold:uint = 100;
 		public var lightSensorDistance:Number = 12; //specified in inches

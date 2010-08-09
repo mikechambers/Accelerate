@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/2.5">
 
+<android> <manifestAdditions> <manifest> <data>
+<![CDATA[ 
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	]]>
+	</data> </manifest> </manifestAdditions> 
+</android>
+
 <!-- Adobe AIR Application Descriptor File Template.
 
 	Specifies parameters for identifying, installing, and launching AIR applications.

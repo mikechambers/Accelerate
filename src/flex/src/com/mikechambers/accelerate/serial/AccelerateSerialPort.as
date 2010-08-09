@@ -192,9 +192,11 @@ package com.mikechambers.accelerate.serial
 		
 		public function close():void
 		{
-			_socket.close();
-			
-			dispatchEvent(new Event(Event.CLOSE));
+			if(_socket.connected)
+			{
+				_socket.close();
+				dispatchEvent(new Event(Event.CLOSE));
+			}
 		}
 		
 
