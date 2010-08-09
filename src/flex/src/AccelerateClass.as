@@ -86,6 +86,16 @@ private function onSettingsUpdated(e:SettingsEvent):void
 		arduino.changeThreshhold = e.settings.lightSensorChangeThreshold;
 	}
 	
+	if(
+		(settings.serverAddress != e.settings.serverAddress) ||
+		(settings.serverPort != e.settings.serverPort)
+		)
+	{
+		arduino.close();
+		
+		arduino.connect(e.settings.serverAddress, e.settings.serverPort);
+	}
+	
 	settings = e.settings;
 	
 	saveSettings();

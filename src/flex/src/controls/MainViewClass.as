@@ -210,6 +210,9 @@ public function onClose(e:Event):void
 	sensor1.status = SensorStatusControl.DISCONNECTED;
 	sensor2.status = SensorStatusControl.DISCONNECTED;
 	
+	sensor2.value = "";
+	sensor1.value = "";
+	
 	resetButton.enabled = false;
 }
 
