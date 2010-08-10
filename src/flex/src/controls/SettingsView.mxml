@@ -25,10 +25,10 @@
 		<s:Label x="446" y="64" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
 		<s:TextInput x="100" y="20" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
 		<s:TextInput x="100" y="55" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:Button x="447" y="297" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
-				  click="onSaveClick()" id="saveButton" fontSize="18"/>
-		<s:Button x="612" y="297" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
-				  click="onCancelClick()" id="cancelButton" fontSize="18"/>
+		<s:Button x="447" y="297" label="Save" width="156" height="50" chromeColor="#10931C" enabled="false" 
+				  click="onSaveClick()" id="saveButton"/>
+		<s:Button x="612" y="297" label="Reset" width="156" height="50" chromeColor="#C60C0C" enabled="false" 
+				  click="onCancelClick()" id="cancelButton"/>
 		<s:Label x="491" y="108" text="Light Sensor Distance :"/>
 		<s:TextInput x="629" y="102" contentBackgroundColor="#FEFFFE" width="70" id="sensorDistanceInput" 
 					 change="onChange()" restrict=".0-9"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="282" height="48" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="404" height="48" 
 		 xmlns:controls="controls.*"
 		 creationComplete="onCreationComplete()">
 	<s:layout>
@@ -13,9 +13,9 @@
 	
 	<fx:Script source="SensorStatusControlClass.as" />
 	
-	<s:Label text="Sensor Label" left="16" right="116" top="5.1" id="labelField"  fontWeight="bold"/>
+	<s:Label text="Sensor Label" left="16" right="68" top="5.1" id="labelField"  fontWeight="bold"/>
 	<controls:LEDControl left="2.9" top="5.35" id="led">
 	</controls:LEDControl>
-	<s:Label width="97" top="-3" right="17" id="valueField" textAlign="left" height="48" fontSize="36" verticalAlign="middle" fontWeight="normal"/>
-	<s:Label x="16" y="21" id="statusField" width="150"/>
+	<s:Label width="97" top="0" right="5" id="valueField" textAlign="left" height="48" fontSize="36" verticalAlign="middle" fontWeight="normal"/>
+	<s:Label x="16" y="24" id="statusField" width="229"/>
 </s:Group>

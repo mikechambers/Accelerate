@@ -13,27 +13,7 @@
 		<s:State name="settingsState"/>
 	</s:states>
 	
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		@namespace controls "controls.*";
-		
-		@font-face {
-			src: url("/Users/mesh/Library/Fonts/Crysta.ttf");
-			fontFamily: Crystal;
-			fontStyle: italic;
-			fontWeight: normal;
-			advancedAntiAliasing: true;
-			embedAsCFF:true;
-			unicodeRange:
-				/*U+0041-005A,  Upper-Case [A..Z] */
-				/*U+0061-007A,  Lower-Case a-z */
-				U+004D,U+0050,U+0048, /* MPH */
-				U+0030-0039, /* Numbers [0..9] */
-				U+002E-002E; /* Period [.] */
-		}		
-		
-	</fx:Style>
+	<fx:Style source="styles/style.css" />
 	
 	<s:transitions>
 		<!--MAIN to DATA -->
