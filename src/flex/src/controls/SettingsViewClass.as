@@ -42,8 +42,8 @@ private function updateSettings():void
 {
 	addressInput.text = _settings.serverAddress;
 	portInput.text = String(_settings.serverPort);
-	tripThresholdSlider.value = _settings.lightSensorTripThreshold;
-	changeThresholdSlider.value = _settings.lightSensorChangeThreshold;
+	tripThresholdInput.text = String(_settings.lightSensorTripThreshold);
+	changeThresholdInput.text = String(_settings.lightSensorChangeThreshold);
 	sensorDistanceInput.text = String(_settings.lightSensorDistance);
 	
 	enableLogCB.selected = _settings.logData;
@@ -58,8 +58,8 @@ private function onSaveClick():void
 	s.serverAddress = addressInput.text;
 	s.serverPort = uint(portInput.text);
 	
-	s.lightSensorTripThreshold = uint(tripThresholdSlider.value);
-	s.lightSensorChangeThreshold = uint(changeThresholdSlider.value);
+	s.lightSensorTripThreshold = uint(tripThresholdInput.text);
+	s.lightSensorChangeThreshold = uint(changeThresholdInput.text);
 	
 	s.logData = enableLogCB.selected;
 	

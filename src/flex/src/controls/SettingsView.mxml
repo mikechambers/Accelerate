@@ -22,23 +22,22 @@
 		<s:Label x="10" y="24" text="Proxy Address :" width="88" textAlign="right"/>
 		<s:Label x="10" y="61" text="Proxy Port :" width="86" textAlign="right" />
 		<s:Label x="446" y="26" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
-		<s:Label x="446" y="76" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
-		<s:HSlider x="623" y="75" minimum="1" maximum="1000" stepSize="10" id="changeThresholdSlider" change="onChange()"/>
-		<s:Label x="737" y="70" width="31" text="{changeThresholdSlider.value}"/>
+		<s:Label x="446" y="64" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
 		<s:TextInput x="100" y="20" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
 		<s:TextInput x="100" y="55" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:HSlider x="623" y="25" minimum="0" maximum="100" stepSize="1" id="tripThresholdSlider" change="onChange()"/>
-		<s:Label x="737" y="20" width="31" text="{tripThresholdSlider.value}"/>
 		<s:Button x="447" y="297" label="Save" width="156" height="51" chromeColor="#10931C" enabled="false" 
 				  click="onSaveClick()" id="saveButton" fontSize="18"/>
 		<s:Button x="612" y="297" label="Reset" width="156" height="51" chromeColor="#C60C0C" enabled="false" 
 				  click="onCancelClick()" id="cancelButton" fontSize="18"/>
-		<s:Label x="491" y="127" text="Light Sensor Distance :"/>
-		<s:TextInput x="629" y="121" contentBackgroundColor="#FEFFFE" width="57" id="sensorDistanceInput" 
+		<s:Label x="491" y="108" text="Light Sensor Distance :"/>
+		<s:TextInput x="629" y="102" contentBackgroundColor="#FEFFFE" width="70" id="sensorDistanceInput" 
 					 change="onChange()" restrict=".0-9"/>
-		<s:Label x="692" y="128" text="Inches"/>
+		<s:Label x="705" y="109" text="Inches"/>
+		<s:Label x="705" y="72" text="%"/>
 		<s:TextArea x="10" y="197" contentBackgroundColor="#FFFFFF" width="357" id="logTextArea" editable="false"/>
 		<s:CheckBox x="285" y="176" label="Enable Log" id="enableLogCB" click="onChange()"/>
+		<s:TextInput x="629" y="20" contentBackgroundColor="#FFFFFF" id="tripThresholdInput" change="onChange()" restrict=".0-9" width="70"/>
+		<s:TextInput x="629" y="65" contentBackgroundColor="#FFFFFF" id="changeThresholdInput" change="onChange()" restrict=".0-9" width="70"/>
 		
 	</s:BorderContainer>
 </s:Group>
