@@ -169,7 +169,7 @@ private function onSensorTotalTime(event:AccelerateDataEvent):void
 		sessionResultsList.dataProvider = sessionResults;
 	}
 	
-	sessionResults.addItem(r);
+	sessionResults.addItemAt(r,0);
 	
 	speedView.speed = speedMPH;
 	
