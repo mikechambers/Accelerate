@@ -14,6 +14,5 @@
 	</fx:Metadata> 		
 	
 	<fx:Script source="DataViewClass.as" />
-	<s:Label text="Data View" fontSize="96" horizontalCenter="0" verticalCenter="0"/>
-	
+	<s:List right="10" left="10" top="10" bottom="79" borderAlpha="0.25" contentBackgroundAlpha="0.25"></s:List>
 </s:Group>

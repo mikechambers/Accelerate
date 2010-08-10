@@ -16,7 +16,7 @@ public function onComplete():void
 	textAreaTarget = new TextAreaTarget(logTextArea);
 	textAreaTarget.includeDate = false;
 	textAreaTarget.includeTime = false;
-	textAreaTarget.includeLevel = true;
+	textAreaTarget.includeLevel = false;
 	textAreaTarget.level = LogEventLevel.ALL;
 	
 	//apparently, the target is automatically

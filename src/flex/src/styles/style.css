@@ -12,6 +12,16 @@ s|Button
 	fontSize:18;
 }
 
+s|TextArea
+{
+	fontSize:14;
+}
+
+.listRenderStyle
+{
+	fontSize:14;
+}
+
 @font-face {
 	src: url("/Users/mesh/Library/Fonts/Crysta.ttf");
 	fontFamily: Crystal;

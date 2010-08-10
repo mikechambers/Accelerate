@@ -13,11 +13,12 @@
 				var r:Result = Result(data);
 				var d:Date = r.date;
 				labelField.text = d.hours + ":" + d.minutes + " " + d.day + "/" + d.month + "/" + 
-					d.fullYear + " :: " + Math.round(r.speed *100)/100 + " MPH";
+					d.fullYear + "   |   " + Math.round(r.speed *100)/100 + " MPH";
 			}
 		]]>
 	</fx:Script>
 	
-	<s:Label right="0" left="0" top="0" bottom="0" fontSize="28" id="labelField" verticalAlign="middle"/>
+	<s:Label right="0" left="0" top="0" bottom="0" fontSize="28" id="labelField" 
+			 styleName="listRenderStyle" verticalAlign="middle"/>
 	
 </s:ItemRenderer>

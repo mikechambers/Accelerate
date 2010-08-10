@@ -16,28 +16,49 @@
 		[Event(name="onUpdated", type="com.mikechambers.accelerate.events.SettingsEvent")] 
 	</fx:Metadata> 	
 	
-	<s:BorderContainer x="10" y="24" width="780" height="360" cornerRadius="3" backgroundAlpha="0.5">
-		<s:Label x="10" y="-8" text="Settings" backgroundColor="#FFFFFF" fontWeight="normal" fontSize="16"/>
+	<s:BorderContainer cornerRadius="3" width="410" x="383" y="31" height="356" borderAlpha="0.25" backgroundAlpha="0.25" dropShadowVisible="false">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+
+		<mx:Form>
+			<mx:FormItem label="Proxy Address">
+				<s:TextInput id="addressInput" change="onChange()" contentBackgroundColor="#FFFFFF"/>
+			</mx:FormItem>
+			<mx:FormItem label="Proxy Port">
+				<s:TextInput id="portInput" change="onChange()" restrict="0-9" contentBackgroundColor="#FFFFFF"/>
+			</mx:FormItem>
+			
+			<mx:FormItem label="Sensor Trip Threshold">
+				<s:TextInput id="tripThresholdInput" change="onChange()" 
+							 restrict=".0-9" width="70" contentBackgroundColor="#FFFFFF"/>
+			</mx:FormItem>			
+			
+			<mx:FormItem label="Sensor Change Threshold">
+				<s:TextInput id="changeThresholdInput" change="onChange()" restrict=".0-9"  contentBackgroundColor="#FFFFFF"/>
+			</mx:FormItem>				
+			
+			<mx:FormItem label="Sensor Distance">
+				<s:TextInput id="sensorDistanceInput" change="onChange()" restrict=".0-9" contentBackgroundColor="#FFFFFF"/>
+			</mx:FormItem>				
+
+		</mx:Form>
+		<s:Button label="Save" width="199" height="50" chromeColor="#10931C" enabled="false" 
+				  click="onSaveClick()" id="saveButton" bottom="10" right="10"/>
+		<s:Button label="Reset" width="178" height="50" chromeColor="#C60C0C" enabled="false" 
+				  click="onCancelClick()" id="cancelButton" bottom="10" right="220"/>		
+	</s:BorderContainer>	
 		
-		<s:Label x="10" y="24" text="Proxy Address :" width="88" textAlign="right"/>
-		<s:Label x="10" y="61" text="Proxy Port :" width="86" textAlign="right" />
-		<s:Label x="446" y="26" text="Light Sensor Trip Threshold :" width="165" textAlign="right"/>
-		<s:Label x="446" y="64" text="Light Sensor Change Threshold :" width="165" textAlign="right"/>
-		<s:TextInput x="100" y="20" contentBackgroundColor="#FAFDFA" width="194" id="addressInput" change="onChange()"/>
-		<s:TextInput x="100" y="55" contentBackgroundColor="#FAFDFA" width="69" id="portInput" change="onChange()" restrict="0-9"/>
-		<s:Button x="447" y="297" label="Save" width="156" height="50" chromeColor="#10931C" enabled="false" 
-				  click="onSaveClick()" id="saveButton"/>
-		<s:Button x="612" y="297" label="Reset" width="156" height="50" chromeColor="#C60C0C" enabled="false" 
-				  click="onCancelClick()" id="cancelButton"/>
-		<s:Label x="491" y="108" text="Light Sensor Distance :"/>
-		<s:TextInput x="629" y="102" contentBackgroundColor="#FEFFFE" width="70" id="sensorDistanceInput" 
-					 change="onChange()" restrict=".0-9"/>
-		<s:Label x="705" y="109" text="Inches"/>
-		<s:Label x="705" y="72" text="%"/>
-		<s:TextArea x="10" y="197" contentBackgroundColor="#FFFFFF" width="357" id="logTextArea" editable="false"/>
-		<s:CheckBox x="285" y="176" label="Enable Log" id="enableLogCB" click="onChange()"/>
-		<s:TextInput x="629" y="20" contentBackgroundColor="#FFFFFF" id="tripThresholdInput" change="onChange()" restrict=".0-9" width="70"/>
-		<s:TextInput x="629" y="65" contentBackgroundColor="#FFFFFF" id="changeThresholdInput" change="onChange()" restrict=".0-9" width="70"/>
-		
+	
+	<s:Label x="399" y="24" text="Settings" fontWeight="bold" backgroundColor="#FFFFFF" fontSize="18"/>
+	
+	
+	<s:BorderContainer cornerRadius="3" width="365" height="356" x="10" y="31" backgroundAlpha="0.25" borderAlpha="0.25" dropShadowVisible="false">
+		<s:TextArea contentBackgroundColor="#FFFFFF" id="logTextArea" editable="false" contentBackgroundAlpha="0.25" borderAlpha="0.25" right="10" left="10" top="67" bottom="10"/>
+		<s:CheckBox label="Enable Logging" id="enableLogCB" click="onChange()" left="8" top="33"/>
 	</s:BorderContainer>
+	
+	<s:Label x="25" y="24" text="Logging" fontWeight="bold" backgroundColor="#FFFFFF" fontSize="18"/>
+
+
 </s:Group>
