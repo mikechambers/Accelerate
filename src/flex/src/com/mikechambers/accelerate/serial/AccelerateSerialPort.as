@@ -198,9 +198,7 @@ package com.mikechambers.accelerate.serial
 				dispatchEvent(new Event(Event.CLOSE));
 			}
 		}
-		
-
-		
+				
 		//specified in milliseconds
 		public function set changeThreshhold(value:uint):void
 		{
@@ -396,15 +394,12 @@ package com.mikechambers.accelerate.serial
 		
 		private function onIOErrorEvent( event:IOErrorEvent ):void
 		{
-			Log.getLogger("LOG").error( "onIOErrorEvent" );
-			
 			startReconnectTimer();
 			dispatchEvent( event.clone() );
 		}
 		
 		private function onSecurityError( event:SecurityErrorEvent ):void
 		{
-			Log.getLogger("LOG").error( "onSecurityError" );
 			dispatchEvent( event.clone() );
 		}
 		
