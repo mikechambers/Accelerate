@@ -25,7 +25,7 @@
 		<controls:SpeedometerView x="0" y="206" width="413" height="219" id="speedView">
 		</controls:SpeedometerView>
 		<s:List x="431" y="166" width="359" height="219" id="sessionResultsList" borderAlpha="0.25"
-				itemRenderer="ResultItemRenderer" contentBackgroundAlpha="0.25" borderVisible="true">
+				itemRenderer="controls.ResultItemRenderer" contentBackgroundAlpha="0.25" borderVisible="true">
 		</s:List>
 			
 	<s:Button label="Reset Sensors" width="170" height="50" 
